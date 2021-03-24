@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "395062493212",
+    "project_id": "serviced-for-business",
+    "storage_bucket": "serviced-for-business.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395062493212:android:7ea00e2b75cd7866215fd9",
+        "android_client_info": {
+          "package_name": "com.gachugusville.servicedforbusiness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395062493212-7tg125bncc0brdqtqncoe3v1mpmb23c9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtyeqLO5iI1qAWPokNh25m9lzTmxlEDRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395062493212-7tg125bncc0brdqtqncoe3v1mpmb23c9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>2
+    <array name="preloaded_fonts" translatable="true">
+        <item>@font/crimson_text</item>
+    </array>
+</resources>

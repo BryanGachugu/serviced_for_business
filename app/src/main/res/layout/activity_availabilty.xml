@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.gachugusville.servicedforbusiness.Registration.AvailabilityActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/light_blue"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/back_btn"
+            android:layout_alignBottom="@id/back_btn"
+            android:layout_centerHorizontal="true"
+            android:text="@string/availability"
+            android:textColor="@color/purple_700"
+            android:textSize="32sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/back_btn"
+            android:background="@drawable/dottedd_line" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:id="@+id/linear_layout_distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/how_far_are_you_willing_to_travel"
+                    android:textColor="@color/purple_700"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/edit_distance_radius"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_white_edit_text"
+                    android:hint="@string/distance_in_kilometres"
+                    android:inputType="number"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/black"
+                    tools:ignore="Autofill" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/checkbox_available_countrywide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:buttonTint="@color/light_blue"
+                android:text="@string/available_countrywide"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/crimson_text"
+                android:text="@string/select_the_days_of_the_week_that_you_are_available"
+                android:textColor="@color/purple_700"
+                android:textSize="20sp" />
+
+            <ca.antonious.materialdaypicker.MaterialDayPicker
+                android:id="@+id/day_picker"
+                style="@style/MaterialDayPickerToggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
+
+            <CheckBox
+                android:id="@+id/checkbox_always_available"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:buttonTint="@color/light_blue"
+                android:text="@string/always_available"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/crimson_text"
+                android:text="@string/select_the_time_that_you_are_available"
+                android:textColor="@color/purple_700"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_time_from"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginEnd="5dp"
+                        android:backgroundTint="@color/light_blue"
+                        android:fontFamily="@font/crimson_text"
+                        android:text="@string/from"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="50dp" />
+
+                    <TextView
+                        android:id="@+id/txt_time_from"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/crimson_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_time_to"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginEnd="5dp"
+                        android:backgroundTint="@color/light_blue"
+                        android:fontFamily="@font/crimson_text"
+                        android:text="@string/from"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="50dp" />
+
+                    <TextView
+                        android:id="@+id/txt_time_to"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/crimson_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_done"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/light_blue"
+                android:text="@string/next"
+                app:cornerRadius="60dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

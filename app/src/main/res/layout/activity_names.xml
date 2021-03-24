@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context="com.gachugusville.servicedforbusiness.Registration.NamesActivity">
+
+    <ImageView
+        android:id="@+id/retailer_signUp_back_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/arrow_back"
+        app:tint="@color/light_blue"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/crimson_text"
+        android:text="@string/what_do_you_identify_as"
+        android:textColor="@color/black"
+        android:textSize="26sp" />
+
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_individual"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/light_blue"
+            android:text="@string/individual"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_Brand"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="@color/light_blue"
+            android:text="@string/brand"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <LinearLayout
+        android:id="@+id/name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edt_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_white_edit_text"
+            android:drawableStart="@drawable/account_icon"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/light_blue"
+            android:fontFamily="@font/crimson_text"
+            android:hint="@string/username"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            tools:ignore="Autofill" />
+
+        <TextView
+            android:id="@+id/txt_user_name_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/red" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/brand_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/edt_brand_name"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_white_edit_text"
+            android:drawableStart="@drawable/brand_icon"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/light_blue"
+            android:fontFamily="@font/crimson_text"
+            android:hint="@string/brand_or_group_name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            tools:ignore="Autofill" />
+
+        <TextView
+            android:id="@+id/txt_brand_name_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/red" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_nextActivity"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:backgroundTint="@color/light_blue"
+        android:text="@string/next"
+        app:cornerRadius="60dp" />
+
+</LinearLayout>

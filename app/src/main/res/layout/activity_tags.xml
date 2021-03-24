@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none"
+    tools:context="com.gachugusville.servicedforbusiness.Registration.TagsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/tags_back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/light_blue"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/txt_abt_you"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/doted"
+            android:layout_centerInParent="true"
+            android:text="@string/about_you"
+            android:textColor="@color/purple_700"
+            android:textSize="32sp" />
+
+        <View
+            android:id="@+id/doted"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/tags_back_btn"
+            android:background="@drawable/dottedd_line" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/crimson_text"
+                android:text="@string/enter_your_profession_or_area_of_expertise"
+                android:textColor="@color/purple_700"
+                android:textSize="19sp" />
+
+            <EditText
+                android:id="@+id/edt_profession"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_white_edit_text"
+                android:fontFamily="@font/crimson_text"
+                android:hint="Profession here"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                tools:ignore="Autofill,HardcodedText" />
+
+            <TextView
+                android:id="@+id/txt_profession_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/crimson_text"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/crimson_text"
+                android:text="@string/tell_us_your_top_skills_and_main_areas_of_expertise_separated_by_a_comma"
+                android:textAlignment="textStart"
+                android:textColor="@color/light_blue"
+                android:textSize="19sp" />
+
+            <com.hootsuite.nachos.NachoTextView
+                android:id="@+id/nacho_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:minHeight="50dp"
+                android:textColor="@color/black"
+                android:hint="@string/start_typing_to_see_suggestions"
+                app:chipTextColor="@color/black"
+                app:chipBackground="@color/orange"
+                android:layout_marginEnd="10dp"
+                android:inputType="textMultiLine"
+                android:background="@drawable/bg_white_edit_text"
+                android:fontFamily="@font/crimson_text"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/txt_skills_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/crimson_text"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/edt_provider_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_white_edit_text"
+                android:fontFamily="@font/crimson_text"
+                android:hint="@string/tell_customers_about_yourself_and_your_career"
+                android:inputType="textMultiLine"
+                android:minHeight="60dp"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                tools:ignore="Autofill" />
+
+            <TextView
+                android:id="@+id/txt_description_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/crimson_text"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/note_to_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_white_edit_text"
+                android:fontFamily="@font/crimson_text"
+                android:hint="@string/what_should_customers_have_ready_to_get_you_started"
+                android:inputType="textMultiLine"
+                android:minHeight="60dp"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                tools:ignore="Autofill" />
+
+            <TextView
+                android:id="@+id/txt_note_to_user_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/crimson_text"
+                android:textAlignment="center"
+                android:textColor="@color/red"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/crimson_text"
+                android:text="@string/link_to_social_accounts"
+                android:textAlignment="center"
+                android:textColor="@color/purple_700"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/crimson_text"
+                android:text="@string/eg_linkedin_facebook_etc"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/url_ref1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/crimson_text"
+                android:hint="@string/first_url"
+                android:inputType="textUri"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                tools:ignore="Autofill" />
+
+            <EditText
+                android:id="@+id/url_ref2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/crimson_text"
+                android:hint="@string/second_url"
+                android:inputType="textUri"
+                android:textColorHint="@color/black"
+                tools:ignore="Autofill" />
+
+            <TextView
+                android:id="@+id/txt_urls_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/crimson_text"
+                android:textAlignment="center"
+                android:textColor="@color/red" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="30dp"
+                android:backgroundTint="@color/light_blue"
+                android:text="@string/next"
+                app:cornerRadius="30dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

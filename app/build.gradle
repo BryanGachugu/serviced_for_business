@@ -1,0 +1,85 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.gachugusville.servicedforbusiness"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.firebase:firebase-analytics:18.0.2'
+    implementation 'com.google.firebase:firebase-auth:20.0.3'
+    implementation 'com.google.firebase:firebase-firestore:22.1.1'
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-perf:19.1.1'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation "com.airbnb.android:lottie:3.4.1"
+    implementation 'com.daimajia.androidanimations:library:2.4@aar'
+    implementation 'com.asdev.PhoneEditText-Android:PhoneEditText-Android:1.1.1'
+    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.hbb20:ccp:2.3.1'
+    implementation 'com.chaos.view:pinview:1.4.3'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-identity:17.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
+    implementation 'com.google.android.gms:play-services-base:17.6.0'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation "androidx.browser:browser:1.3.0"
+    implementation 'com.google.firebase:firebase-core:18.0.2'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "com.hootsuite.android:nachos:1.1.1"
+    implementation 'ca.antonious:materialdaypicker:0.7.4'
+    implementation 'com.code-troopers.betterpickers:library:3.1.0'
+    implementation 'com.tapadoo.android:alerter:3.0.0'
+    //charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    //rating bar
+    implementation 'com.github.giswangsj:AndRatingBar:1.0.5'
+    implementation 'com.github.majorkik:SparkLineLayout:1.0.1'
+    implementation 'tm.charlie.androidlib:expandable-textview:2.0.2'
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.firebase:firebase-dynamic-links'
+    implementation 'com.google.android.play:core:1.10.0'
+
+
+}

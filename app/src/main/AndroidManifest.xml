@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gachugusville.development.servicedforbusiness">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/test"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/test"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ServicedForBusiness">
+        <activity android:name="com.gachugusville.servicedforbusiness.Registration.ResetPasswordActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Registration.LogInActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.SettingsActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.JobsDoneActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.ProfileViewsActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.ReviewsActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Registration.UserAgreements" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Registration.AvailabilityActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Registration.TagsActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Registration.ServiceSetUpActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.DashboardActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Registration.NamesActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Registration.SignUp" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Genesis.StartActivity" />
+        <activity android:name="com.gachugusville.servicedforbusiness.Genesis.SplashScreen">
+            <intent-filter android:theme="@style/SplashScreenTheme">
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>
