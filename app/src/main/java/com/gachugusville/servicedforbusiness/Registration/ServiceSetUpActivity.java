@@ -65,7 +65,6 @@ public class ServiceSetUpActivity extends AppCompatActivity {
         back_btn.setOnClickListener(v -> ServiceSetUpActivity.super.onBackPressed());
 
     }
-
     private void setWelcomeMsg() {
         String name = Provider.getInstance().getUser_name();
         String brand_name = Provider.getInstance().getBrand_name();
