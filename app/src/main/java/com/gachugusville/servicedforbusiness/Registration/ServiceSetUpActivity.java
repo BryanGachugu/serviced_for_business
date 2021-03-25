@@ -61,9 +61,7 @@ public class ServiceSetUpActivity extends AppCompatActivity {
         }catch (Exception e){
             Log.d("CategoriesError", e.getMessage());
         }
-
         back_btn.setOnClickListener(v -> ServiceSetUpActivity.super.onBackPressed());
-
     }
     private void setWelcomeMsg() {
         String name = Provider.getInstance().getUser_name();
