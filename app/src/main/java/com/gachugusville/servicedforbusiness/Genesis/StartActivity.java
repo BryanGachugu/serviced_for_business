@@ -22,7 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class StartActivity extends AppCompatActivity {
-    private LocationRequest locationRequest;
+
     public  static final  int GPS_CHECK_SETTINGS = 1001;
 
     @Override
@@ -53,7 +53,7 @@ public class StartActivity extends AppCompatActivity {
         result.addOnCompleteListener(command -> {
             try {
                 LocationSettingsResponse response = command.getResult(ApiException.class);
-                
+
             } catch (ApiException e) {
                 e.printStackTrace();
             }

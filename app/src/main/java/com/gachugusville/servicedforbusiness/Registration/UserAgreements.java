@@ -19,6 +19,7 @@ import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Dashboard.DashboardActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +33,7 @@ import java.util.Objects;
 
 public class UserAgreements extends AppCompatActivity {
 
+    private LocationRequest locationRequest;
     private final FirebaseFirestore providersDatabase = FirebaseFirestore.getInstance(); // database reference
     private final String userID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -42,6 +44,25 @@ public class UserAgreements extends AppCompatActivity {
         setContentView(R.layout.activity_user_agreements);
         MaterialButton finish_registration = findViewById(R.id.finish_registration);
         MaterialButton btn_decline_terms = findViewById(R.id.btn_decline_terms);
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(20 * 1000);
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        wayLatitude = location.getLatitude();
+                        wayLongitude = location.getLongitude();
+                        txtLocation.setText(String.format(Locale.US, "%s -- %s", wayLatitude, wayLongitude));
+                    }
+                }
+            }
+        };
 
         Toast.makeText(this, "Entered activity", Toast.LENGTH_SHORT).show();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
