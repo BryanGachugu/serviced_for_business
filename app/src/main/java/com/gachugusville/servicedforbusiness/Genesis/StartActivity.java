@@ -29,6 +29,8 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         MaterialButton btn_signUp = findViewById(R.id.btn_signUp);
 
+        
+
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivity(new Intent(this, DashboardActivity.class));
         } else
