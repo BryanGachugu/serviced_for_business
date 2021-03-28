@@ -13,11 +13,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +44,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     private TextView txt_time_from, txt_time_to;
     private MaterialDayPicker day_picker;
     private LocationRequest locationRequest;
-    
+    private static final int GPS_REQUEST_CODE = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +63,32 @@ public class AvailabilityActivity extends AppCompatActivity {
         txt_time_to = findViewById(R.id.txt_time_to);
         findViewById(R.id.back_btn).setOnClickListener(v -> AvailabilityActivity.super.onBackPressed());
 
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
+                .checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try {
+                    LocationSettingsResponse response = task.getResult(ApiException.class);
+                    Toast.makeText(AvailabilityActivity.this, "GPS is on", Toast.LENGTH_SHORT).show();
+                } catch (ApiException e) {
+                    switch(e.getStatusCode()){
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                            resolvableApiException.startResolutionForResult();
+                            case LocationSettingsStatusCodes.
+                    }
+                }
+            }
+        })
 
         if (Provider.getInstance().isAlways_available()) {
             edit_distance_radius.setText("");
