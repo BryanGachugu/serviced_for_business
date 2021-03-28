@@ -3,6 +3,8 @@ package com.gachugusville.servicedforbusiness.Registration;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -14,13 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
@@ -44,6 +50,8 @@ public class AvailabilityActivity extends AppCompatActivity {
     private TextView txt_time_from, txt_time_to;
     private MaterialDayPicker day_picker;
     private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private FusedLocationProviderClient fusedLocationClient;
     private static final int GPS_REQUEST_CODE = 1001;
 
     @Override
@@ -62,6 +70,7 @@ public class AvailabilityActivity extends AppCompatActivity {
         txt_time_from = findViewById(R.id.txt_time_from);
         txt_time_to = findViewById(R.id.txt_time_to);
         findViewById(R.id.back_btn).setOnClickListener(v -> AvailabilityActivity.super.onBackPressed());
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -80,15 +89,19 @@ public class AvailabilityActivity extends AppCompatActivity {
                     LocationSettingsResponse response = task.getResult(ApiException.class);
                     Toast.makeText(AvailabilityActivity.this, "GPS is on", Toast.LENGTH_SHORT).show();
                 } catch (ApiException e) {
-                    switch(e.getStatusCode()){
+                    switch (e.getStatusCode()) {
                         case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                             ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                            resolvableApiException.startResolutionForResult();
-                            case LocationSettingsStatusCodes.
+                            try {
+                                resolvableApiException.startResolutionForResult(AvailabilityActivity.this, GPS_REQUEST_CODE);
+                            } catch (IntentSender.SendIntentException sendIntentException) {
+                                sendIntentException.printStackTrace();
+                            }
+                            break;
                     }
                 }
             }
-        })
+        });
 
         if (Provider.getInstance().isAlways_available()) {
             edit_distance_radius.setText("");
@@ -150,6 +163,20 @@ public class AvailabilityActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPS_REQUEST_CODE) {
+            switch (requestCode) {
+                case AvailabilityActivity.RESULT_OK:
+                    Toast.makeText(this, "GPS is turned on", Toast.LENGTH_SHORT).show();
+                    break;
+                case AvailabilityActivity.RESULT_CANCELED:
+                    Toast.makeText(this, "Location Services are required", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void saveData() {
         if (checkbox_available_countrywide.isChecked()) {
             Provider.getInstance().setAvailable_country_wide(true);
@@ -188,6 +215,18 @@ public class AvailabilityActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void buildLocationCallBack() {
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    String latitude = String.valueOf(location.getLatitude());
+                    String longitude = String.valueOf(location.getLongitude());
+                }
+            }
+        };
     }
 
 }
