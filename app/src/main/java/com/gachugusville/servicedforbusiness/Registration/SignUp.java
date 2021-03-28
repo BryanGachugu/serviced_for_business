@@ -146,9 +146,9 @@ public class SignUp extends AppCompatActivity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("GoogleSignIn", "Google sign in failed", e);
-                // ...
             }
-            if (task.isCanceled()){
+            if (task.isCanceled()) {
+                //Below line is needed
                 dialog.dismissDialog();
             }
         }

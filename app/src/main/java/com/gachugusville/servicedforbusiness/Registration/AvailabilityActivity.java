@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
@@ -33,6 +34,8 @@ public class AvailabilityActivity extends AppCompatActivity {
     private CheckBox checkbox_available_countrywide, checkbox_always_available;
     private TextView txt_time_from, txt_time_to;
     private MaterialDayPicker day_picker;
+    private LocationRequest locationRequest;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,9 @@ public class AvailabilityActivity extends AppCompatActivity {
         day_picker = findViewById(R.id.day_picker);
         txt_time_from = findViewById(R.id.txt_time_from);
         txt_time_to = findViewById(R.id.txt_time_to);
-
         findViewById(R.id.back_btn).setOnClickListener(v -> AvailabilityActivity.super.onBackPressed());
+
+
 
         if (Provider.getInstance().isAlways_available()) {
             edit_distance_radius.setText("");

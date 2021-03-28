@@ -22,7 +22,6 @@ public class Dialog {
         LayoutInflater inflater = activity.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.dialog_custom, null));
         builder.setCancelable(false);
-
         dialog = builder.create();
         dialog.show();
     }
