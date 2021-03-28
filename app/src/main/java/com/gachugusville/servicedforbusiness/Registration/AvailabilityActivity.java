@@ -51,7 +51,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     private MaterialDayPicker day_picker;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    private FusedLocationProviderClient fusedLocationClient;
+    private final FusedLocationProviderClient fusedLocationClient =  LocationServices.getFusedLocationProviderClient(this);
     private static final int GPS_REQUEST_CODE = 1001;
 
     @Override
@@ -70,7 +70,6 @@ public class AvailabilityActivity extends AppCompatActivity {
         txt_time_from = findViewById(R.id.txt_time_from);
         txt_time_to = findViewById(R.id.txt_time_to);
         findViewById(R.id.back_btn).setOnClickListener(v -> AvailabilityActivity.super.onBackPressed());
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -82,23 +81,20 @@ public class AvailabilityActivity extends AppCompatActivity {
         Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
                 .checkLocationSettings(builder.build());
 
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-                try {
-                    LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(AvailabilityActivity.this, "GPS is on", Toast.LENGTH_SHORT).show();
-                } catch (ApiException e) {
-                    switch (e.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                            try {
-                                resolvableApiException.startResolutionForResult(AvailabilityActivity.this, GPS_REQUEST_CODE);
-                            } catch (IntentSender.SendIntentException sendIntentException) {
-                                sendIntentException.printStackTrace();
-                            }
-                            break;
-                    }
+        result.addOnCompleteListener(task -> {
+            try {
+                LocationSettingsResponse response = task.getResult(ApiException.class);
+                Toast.makeText(AvailabilityActivity.this, "GPS is on", Toast.LENGTH_SHORT).show();
+            } catch (ApiException e) {
+                switch (e.getStatusCode()) {
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                        try {
+                            resolvableApiException.startResolutionForResult(AvailabilityActivity.this, GPS_REQUEST_CODE);
+                        } catch (IntentSender.SendIntentException sendIntentException) {
+                            sendIntentException.printStackTrace();
+                        }
+                        break;
                 }
             }
         });
@@ -217,16 +213,6 @@ public class AvailabilityActivity extends AppCompatActivity {
         return true;
     }
 
-    private void buildLocationCallBack() {
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                for (Location location : locationResult.getLocations()) {
-                    String latitude = String.valueOf(location.getLatitude());
-                    String longitude = String.valueOf(location.getLongitude());
-                }
-            }
-        };
-    }
+
 
 }
