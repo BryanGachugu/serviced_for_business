@@ -135,9 +135,9 @@ public class SignUp extends AppCompatActivity {
             // *** No phone numbers available ***
             Toast.makeText(this, "No phone numbers found", Toast.LENGTH_LONG).show();
         } else if (requestCode == RC_SIGN_IN) {
+            Dialog dialog = new Dialog(this);
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                Dialog dialog = new Dialog(this);
                 dialog.startDialog();
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -147,6 +147,9 @@ public class SignUp extends AppCompatActivity {
                 // Google Sign In failed, update UI appropriately
                 Log.w("GoogleSignIn", "Google sign in failed", e);
                 // ...
+            }
+            if (task.isCanceled()){
+                dialog.dismissDialog();
             }
         }
 

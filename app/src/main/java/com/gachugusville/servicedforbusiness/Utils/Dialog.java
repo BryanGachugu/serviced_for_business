@@ -20,7 +20,7 @@ public class Dialog {
     public void startDialog() {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.custom_dialog, null));
+        builder.setView(inflater.inflate(R.layout.dialog_custom, null));
         builder.setCancelable(false);
 
         dialog = builder.create();
