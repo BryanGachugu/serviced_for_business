@@ -121,7 +121,6 @@ public class AvailabilityActivity extends AppCompatActivity {
                 } else {
                     try {
                         locationRequest();
-                        saveData();
                     } catch (Exception e) {
                         Log.d("LocationError", e.getMessage());
                     }
@@ -225,6 +224,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     public void locationRequest() {
         if (ActivityCompat.checkSelfPermission(AvailabilityActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getLocation();
+            saveData();
         } else {
             ActivityCompat.requestPermissions(AvailabilityActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
