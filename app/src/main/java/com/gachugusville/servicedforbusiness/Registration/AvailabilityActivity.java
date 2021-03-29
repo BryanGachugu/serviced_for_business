@@ -1,9 +1,12 @@
 package com.gachugusville.servicedforbusiness.Registration;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
@@ -26,7 +30,6 @@ import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
@@ -51,7 +54,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     private MaterialDayPicker day_picker;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    private final FusedLocationProviderClient fusedLocationClient =  LocationServices.getFusedLocationProviderClient(this);
+    private final FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     private static final int GPS_REQUEST_CODE = 1001;
 
     @Override
@@ -88,12 +91,15 @@ public class AvailabilityActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 switch (e.getStatusCode()) {
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        ResolvableApiException resolvableApiException = (ResolvableApiException) e;
                         try {
+                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
                             resolvableApiException.startResolutionForResult(AvailabilityActivity.this, GPS_REQUEST_CODE);
                         } catch (IntentSender.SendIntentException sendIntentException) {
                             sendIntentException.printStackTrace();
                         }
+                        break;
+
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                         break;
                 }
             }
@@ -213,6 +219,25 @@ public class AvailabilityActivity extends AppCompatActivity {
         return true;
     }
 
+    public void locationRequest(){
+        if (ActivityCompat.checkSelfPermission(AvailabilityActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            getLocation();
+        }else {
+            ActivityCompat.requestPermissions(AvailabilityActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+    }
 
+    private void getLocation() {
+        fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if (location != null){
+                    Geocoder geocoder = 
+                }
+
+            }
+        })
+    }
 
 }
