@@ -52,7 +52,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     private CheckBox checkbox_available_countrywide, checkbox_always_available;
     private TextView txt_time_from, txt_time_to;
     private MaterialDayPicker day_picker;
-    private final FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    private FusedLocationProviderClient fusedLocationClient;
     private static final int GPS_REQUEST_CODE = 1001;
 
     @Override
@@ -71,6 +71,7 @@ public class AvailabilityActivity extends AppCompatActivity {
         txt_time_from = findViewById(R.id.txt_time_from);
         txt_time_to = findViewById(R.id.txt_time_to);
         findViewById(R.id.back_btn).setOnClickListener(v -> AvailabilityActivity.super.onBackPressed());
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -170,10 +171,9 @@ public class AvailabilityActivity extends AppCompatActivity {
         if (requestCode == GPS_REQUEST_CODE) {
             switch (requestCode) {
                 case AvailabilityActivity.RESULT_OK:
+                case AvailabilityActivity.RESULT_CANCELED:
                     locationRequest();
                     break;
-                case AvailabilityActivity.RESULT_CANCELED:
-                    Toast.makeText(this, "Location Services are required", Toast.LENGTH_SHORT).show();
             }
         }
     }
