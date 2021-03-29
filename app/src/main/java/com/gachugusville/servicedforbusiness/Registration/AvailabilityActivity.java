@@ -120,7 +120,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
-                        getLocation();
+                        locationRequest();
                     } catch (Exception e) {
                         Log.d("LocationError", e.getMessage());
                     }
