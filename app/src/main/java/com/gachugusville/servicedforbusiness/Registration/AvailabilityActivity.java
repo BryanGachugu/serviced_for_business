@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -28,19 +28,19 @@ import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -52,8 +52,6 @@ public class AvailabilityActivity extends AppCompatActivity {
     private CheckBox checkbox_available_countrywide, checkbox_always_available;
     private TextView txt_time_from, txt_time_to;
     private MaterialDayPicker day_picker;
-    private LocationRequest locationRequest;
-    private LocationCallback locationCallback;
     private final FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     private static final int GPS_REQUEST_CODE = 1001;
 
@@ -74,7 +72,7 @@ public class AvailabilityActivity extends AppCompatActivity {
         txt_time_to = findViewById(R.id.txt_time_to);
         findViewById(R.id.back_btn).setOnClickListener(v -> AvailabilityActivity.super.onBackPressed());
 
-        locationRequest = LocationRequest.create();
+        LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
@@ -86,8 +84,9 @@ public class AvailabilityActivity extends AppCompatActivity {
 
         result.addOnCompleteListener(task -> {
             try {
+                //Below unassigned variable needed
                 LocationSettingsResponse response = task.getResult(ApiException.class);
-                Toast.makeText(AvailabilityActivity.this, "GPS is on", Toast.LENGTH_SHORT).show();
+                locationRequest();
             } catch (ApiException e) {
                 switch (e.getStatusCode()) {
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
@@ -171,7 +170,7 @@ public class AvailabilityActivity extends AppCompatActivity {
         if (requestCode == GPS_REQUEST_CODE) {
             switch (requestCode) {
                 case AvailabilityActivity.RESULT_OK:
-                    Toast.makeText(this, "GPS is turned on", Toast.LENGTH_SHORT).show();
+                    locationRequest();
                     break;
                 case AvailabilityActivity.RESULT_CANCELED:
                     Toast.makeText(this, "Location Services are required", Toast.LENGTH_SHORT).show();
@@ -219,25 +218,30 @@ public class AvailabilityActivity extends AppCompatActivity {
         return true;
     }
 
-    public void locationRequest(){
-        if (ActivityCompat.checkSelfPermission(AvailabilityActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+    public void locationRequest() {
+        if (ActivityCompat.checkSelfPermission(AvailabilityActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getLocation();
-        }else {
+        } else {
             ActivityCompat.requestPermissions(AvailabilityActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
     }
 
     private void getLocation() {
-        fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                if (location != null){
-                    Geocoder geocoder = 
+        fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
+            Location location = task.getResult();
+            if (location != null) {
+                try {
+                    Geocoder geocoder = new Geocoder(AvailabilityActivity.this, Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    Provider.getInstance().setLatitude(addresses.get(0).getLatitude());
+                    Provider.getInstance().setLongitude(addresses.get(0).getLongitude());
+                    Provider.getInstance().setCountry(addresses.get(0).getCountryName());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
             }
-        })
+
+        }).addOnFailureListener(e -> Toast.makeText(AvailabilityActivity.this, "Could not get your location", Toast.LENGTH_SHORT).show());
     }
 
 }
