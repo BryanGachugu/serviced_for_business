@@ -121,20 +121,18 @@ public class AvailabilityActivity extends AppCompatActivity {
                 } else {
                     try {
                         locationRequest();
+                        saveData();
                     } catch (Exception e) {
                         Log.d("LocationError", e.getMessage());
                     }
-                    saveData();
                 }
             } catch (Exception e) {
                 Log.d("AvailabilityError", e.getMessage());
             }
         });
-
         checkbox_always_available.setOnClickListener(v -> {
             if (checkbox_always_available.isChecked()) day_picker.selectAllDays();
         });
-
         btn_time_from.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int hours = calendar.get(Calendar.HOUR_OF_DAY);
@@ -178,7 +176,7 @@ public class AvailabilityActivity extends AppCompatActivity {
             switch (requestCode) {
                 case AvailabilityActivity.RESULT_OK:
                 case AvailabilityActivity.RESULT_CANCELED:
-                    locationRequest();
+
                     break;
             }
         }

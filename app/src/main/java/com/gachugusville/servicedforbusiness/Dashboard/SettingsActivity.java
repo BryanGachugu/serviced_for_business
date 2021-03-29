@@ -27,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
         getWindow().setStatusBarColor(getResources().getColor(R.color.white));
         setContentView(R.layout.activity_settings);
-        findViewById(R.id.settings_back_btn).setOnClickListener(v -> startActivity(new Intent(this, StartActivity.class)));
+        findViewById(R.id.settings_back_btn).setOnClickListener(v -> SettingsActivity.super.onBackPressed());
         txt_app_version = findViewById(R.id.txt_app_version);
         setAppVersion();
 

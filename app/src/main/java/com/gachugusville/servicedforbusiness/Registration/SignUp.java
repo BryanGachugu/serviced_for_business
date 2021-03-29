@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
+import com.gachugusville.servicedforbusiness.Dashboard.DashboardActivity;
 import com.gachugusville.servicedforbusiness.Utils.Dialog;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.gms.auth.api.credentials.Credential;
@@ -161,6 +162,9 @@ public class SignUp extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
+                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                            startActivity(new Intent(SignUp.this, DashboardActivity.class));
+                        }
                         startActivity(new Intent(SignUp.this, NamesActivity.class));
                         Provider.getInstance().setPhone(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
                         Provider.getInstance().setGoogleAuth(true);
@@ -208,6 +212,9 @@ public class SignUp extends AppCompatActivity {
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                startActivity(new Intent(SignUp.this, DashboardActivity.class));
+                            }
                             dialog.dismissDialog();
                             startActivity(new Intent(SignUp.this, NamesActivity.class));
                             Provider.getInstance().setGoogleAuth(false);
