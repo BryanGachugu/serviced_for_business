@@ -26,7 +26,6 @@ import androidx.core.app.ActivityCompat;
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -119,8 +118,14 @@ public class AvailabilityActivity extends AppCompatActivity {
                     Toast.makeText(this, "Please select the days you are available", Toast.LENGTH_SHORT).show();
                 } else if (!(isTimeFromSet() && isTimeToSet())) {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
-                } else
+                } else {
+                    try {
+                        getLocation();
+                    } catch (Exception e) {
+                        Log.d("LocationError", e.getMessage());
+                    }
                     saveData();
+                }
             } catch (Exception e) {
                 Log.d("AvailabilityError", e.getMessage());
             }
@@ -243,13 +248,5 @@ public class AvailabilityActivity extends AppCompatActivity {
             }
 
         }).addOnFailureListener(e -> Toast.makeText(AvailabilityActivity.this, "Could not get your location", Toast.LENGTH_SHORT).show());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
     }
 }
