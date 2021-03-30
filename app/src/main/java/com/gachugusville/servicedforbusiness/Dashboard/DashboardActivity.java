@@ -101,9 +101,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // animateNavigationDrawer();
         navigationDrawer();
 
-        btn_settings.setOnClickListener(v -> {
-            startActivity(new Intent(this, SettingsActivity.class));
-        });
+        btn_settings.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
 
 
         //line_chart = findViewById(R.id.line_chart);
@@ -284,16 +282,13 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private void rateApp() {
         manager = ReviewManagerFactory.create(this);
         Task<ReviewInfo> request = manager.requestReviewFlow();
-        request.addOnCompleteListener(new OnCompleteListener<ReviewInfo>() {
-            @Override
-            public void onComplete(@NonNull Task<ReviewInfo> task) {
-                if (task.isSuccessful()) {
-                    reviewInfo = task.getResult();
-                    Task<Void> flow = manager.launchReviewFlow(DashboardActivity.this, reviewInfo);
-                    flow.addOnSuccessListener(result -> findViewById(R.id.rate_nav).setVisibility(View.GONE)).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "An internal error occured", Toast.LENGTH_SHORT).show());
-                } else {
-                    Toast.makeText(DashboardActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                }
+        request.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                reviewInfo = task.getResult();
+                Task<Void> flow = manager.launchReviewFlow(DashboardActivity.this, reviewInfo);
+                flow.addOnSuccessListener(result -> findViewById(R.id.rate_nav).setVisibility(View.GONE)).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "An internal error occured", Toast.LENGTH_SHORT).show());
+            } else {
+                Toast.makeText(DashboardActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "Failed", Toast.LENGTH_SHORT).show());
     }
