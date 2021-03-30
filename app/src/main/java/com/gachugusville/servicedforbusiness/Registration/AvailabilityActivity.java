@@ -54,6 +54,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     private MaterialDayPicker day_picker;
     private FusedLocationProviderClient fusedLocationClient;
     private static final int GPS_REQUEST_CODE = 1001;
+    private static final int LOCATION_REQUEST_CODE = 44;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +120,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                 } else if (!(isTimeFromSet() && isTimeToSet())) {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
                 } else {
-                    try {
-                        saveData();
-                    } catch (Exception e) {
-                        Log.d("LocationError", e.getMessage());
-                    }
+                    Toast.makeText(this, "Location permission was needed", Toast.LENGTH_SHORT).show();
                 }
 
             } catch (Exception e) {
@@ -149,7 +146,6 @@ public class AvailabilityActivity extends AppCompatActivity {
             }, hours, minutes, DateFormat.is24HourFormat(this));
             timePickerDialog.show();
         });
-
         btn_time_to.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int hours = calendar.get(Calendar.HOUR_OF_DAY);
@@ -175,7 +171,7 @@ public class AvailabilityActivity extends AppCompatActivity {
         if (requestCode == GPS_REQUEST_CODE) {
             switch (resultCode) {
                 case AvailabilityActivity.RESULT_OK:
-                    locationRequest();
+                    Toast.makeText(this, "GPS turned on successfully", Toast.LENGTH_SHORT).show();
                     break;
                 case AvailabilityActivity.RESULT_CANCELED:
                     Toast.makeText(this, "Location permission needed", Toast.LENGTH_SHORT).show();
@@ -184,10 +180,11 @@ public class AvailabilityActivity extends AppCompatActivity {
                     throw new IllegalStateException("Unexpected value: " + requestCode);
             }
         }
-        if (requestCode == 44) {
+        if (requestCode == LOCATION_REQUEST_CODE) {
             switch (resultCode) {
                 case AvailabilityActivity.RESULT_OK:
                     getLocation();
+                    saveData();
                 case AvailabilityActivity.RESULT_CANCELED:
                     Toast.makeText(this, "Location seriously needed", Toast.LENGTH_SHORT).show();
             }
@@ -236,7 +233,7 @@ public class AvailabilityActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(AvailabilityActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getLocation();
         } else {
-            ActivityCompat.requestPermissions(AvailabilityActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+            ActivityCompat.requestPermissions(AvailabilityActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
         }
     }
 
