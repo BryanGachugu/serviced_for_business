@@ -172,7 +172,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPS_REQUEST_CODE) {
-            switch (requestCode){
+            switch (resultCode){
                 case AvailabilityActivity.RESULT_OK:
                     locationRequest();
                     break;
@@ -181,6 +181,14 @@ public class AvailabilityActivity extends AppCompatActivity {
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + requestCode);
+            }
+        }
+        if (requestCode == 44){
+            switch (resultCode){
+                case AvailabilityActivity.RESULT_OK:
+                    getLocation();
+                case AvailabilityActivity.RESULT_CANCELED:
+                    Toast.makeText(this, "Location seriously needed", Toast.LENGTH_SHORT).show();
             }
         }
     }
