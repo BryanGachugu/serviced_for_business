@@ -19,8 +19,8 @@ public class Provider {
         return provider;
     }
 
-    String user_name = "", brand_name = "", service_category = "", service_identity = "", personal_description = "",
-            short_note_to_users = "", phone, ref_url1 = "", ref_url2 = "", email = "", country = "";
+    String user_name, brand_name, service_category, service_identity, personal_description,
+            short_note_to_users, phone, ref_url1, ref_url2, email, country;
     List<Reviews> reviews;
     List<String> provider_skills;
     List<MaterialDayPicker.Weekday> days_available;
