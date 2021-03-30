@@ -49,20 +49,26 @@ public class ServiceSetUpActivity extends AppCompatActivity {
                         if (error != null) {
                             Log.d("Error", Objects.requireNonNull(error.getMessage()));
                         }
-                        assert value != null;
-                        for (DocumentChange documentChange : value.getDocumentChanges()) {
-                            if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                                final ServiceCategoryList category = documentChange.getDocument().toObject(ServiceCategoryList.class);
-                                serviceCategoryList.add(category);
-                                categorySpinnerAdapter.notifyDataSetChanged();
+                        try {
+                            if (value != null) {
+                                for (DocumentChange documentChange : value.getDocumentChanges()) {
+                                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                                        final ServiceCategoryList category = documentChange.getDocument().toObject(ServiceCategoryList.class);
+                                        serviceCategoryList.add(category);
+                                        categorySpinnerAdapter.notifyDataSetChanged();
+                                    }
+                                }
                             }
+                        } catch (NullPointerException e) {
+                            Log.d(e.getMessage(), e.getLocalizedMessage());
                         }
                     });
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("CategoriesError", e.getMessage());
         }
         back_btn.setOnClickListener(v -> ServiceSetUpActivity.super.onBackPressed());
     }
+
     private void setWelcomeMsg() {
         String name = Provider.getInstance().getUser_name();
         String brand_name = Provider.getInstance().getBrand_name();

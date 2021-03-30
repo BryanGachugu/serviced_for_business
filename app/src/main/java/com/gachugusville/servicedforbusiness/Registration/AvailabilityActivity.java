@@ -120,11 +120,13 @@ public class AvailabilityActivity extends AppCompatActivity {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
-                        saveData();
+                       getLocation();
                     } catch (Exception e) {
                         Log.d("LocationError", e.getMessage());
                     }
+                    saveData();
                 }
+
             } catch (Exception e) {
                 Log.d("AvailabilityError", e.getMessage());
             }
@@ -172,7 +174,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPS_REQUEST_CODE) {
-            switch (resultCode){
+            switch (resultCode) {
                 case AvailabilityActivity.RESULT_OK:
                     locationRequest();
                     break;
@@ -183,8 +185,8 @@ public class AvailabilityActivity extends AppCompatActivity {
                     throw new IllegalStateException("Unexpected value: " + requestCode);
             }
         }
-        if (requestCode == 44){
-            switch (resultCode){
+        if (requestCode == 44) {
+            switch (resultCode) {
                 case AvailabilityActivity.RESULT_OK:
                     getLocation();
                 case AvailabilityActivity.RESULT_CANCELED:
@@ -204,7 +206,6 @@ public class AvailabilityActivity extends AppCompatActivity {
         List<MaterialDayPicker.Weekday> selectedDays = day_picker.getSelectedDays();
         Provider.getInstance().setDays_available(selectedDays);
         startActivity(new Intent(this, UserAgreements.class));
-
     }
 
     public boolean isTimeFromSet() {
