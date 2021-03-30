@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +38,9 @@ public class Home extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         // Hooks
         NavigationView navigation_view = Objects.requireNonNull(getActivity()).findViewById(R.id.navigation_view);
-        MaterialCardView card_reviews = view.findViewById(R.id.card_reviews);
+        LinearLayout linearLayout_reviews = view.findViewById(R.id.linearLayout_reviews);
         MaterialCardView card_profile_views = view.findViewById(R.id.card_profile_views);
-        MaterialCardView card_jobs_done = view.findViewById(R.id.card_jobs_done);
+        LinearLayout linear_layout_jobs_done = view.findViewById(R.id.linear_layout_jobs_done);
         navigation_view.setCheckedItem(R.id.home_nav);
         TextView number_of_reviews = view.findViewById(R.id.number_of_reviews);
         TextView number_of_views = view.findViewById(R.id.number_of_views);
@@ -83,9 +84,9 @@ public class Home extends Fragment {
         number_of_jobs.setText(String.valueOf(Provider.getInstance().getJobs_done()));
 
         //Take to respect activities on click
-        card_reviews.setOnClickListener(v -> startActivity(new Intent(getContext(), ReviewsActivity.class)));
+        linearLayout_reviews.setOnClickListener(v -> startActivity(new Intent(getContext(), ReviewsActivity.class)));
         card_profile_views.setOnClickListener(v -> startActivity(new Intent(getContext(), ProfileViewsActivity.class)));
-        card_jobs_done.setOnClickListener(v -> startActivity(new Intent(getContext(), JobsDoneActivity.class)));
+        linear_layout_jobs_done.setOnClickListener(v -> startActivity(new Intent(getContext(), JobsDoneActivity.class)));
 
 
         //TODO fetch this data from the last 7 days

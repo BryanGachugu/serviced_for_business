@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="15dp"
-        android:text="Good Morning"
         android:textColor="@color/purple_700"
         android:textSize="19sp" />
 
@@ -27,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="Bryan Gachugu"
         android:textColor="@color/purple_700"
         android:textSize="19sp" />
 

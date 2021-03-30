@@ -80,7 +80,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         } else if (hour >= 17 && hour < 21) {
             greeting = "Good Evening";
             txt_greetings.setText(greeting);
-        } else if (hour >= 21 && hour < 24) {
+        } else if (hour >= 21) {
             greeting = "Good Night";
             txt_greetings.setText(greeting);
         } else {

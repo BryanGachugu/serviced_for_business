@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:context="com.gachugusville.servicedforbusiness.Dashboard.Home"
     android:layout_height="wrap_content"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    tools:context="com.gachugusville.servicedforbusiness.Dashboard.Home">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayout_reviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -31,7 +31,6 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_image">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_reviews"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
@@ -109,7 +108,7 @@
                         android:textStyle="bold" />
 
                     <RatingBar
-                        style="@style/Widget.AppCompat.RatingBar.Indicator"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -136,13 +135,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear_layout_2"
+            android:id="@+id/linear_layout_jobs_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_reviews">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -197,7 +196,6 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_jobs_done"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -267,7 +265,7 @@
             app:cardCornerRadius="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear_layout_2">
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_jobs_done">
 
             <LinearLayout
                 android:layout_width="match_parent"
