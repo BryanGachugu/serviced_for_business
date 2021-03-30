@@ -120,7 +120,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                 } else if (!(isTimeFromSet() && isTimeToSet())) {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Location permission was needed", Toast.LENGTH_SHORT).show();
+                    locationRequest();
                 }
 
             } catch (Exception e) {
@@ -180,15 +180,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                     throw new IllegalStateException("Unexpected value: " + requestCode);
             }
         }
-        if (requestCode == LOCATION_REQUEST_CODE) {
-            switch (resultCode) {
-                case AvailabilityActivity.RESULT_OK:
-                    getLocation();
-                    saveData();
-                case AvailabilityActivity.RESULT_CANCELED:
-                    Toast.makeText(this, "Location seriously needed", Toast.LENGTH_SHORT).show();
-            }
-        }
+
     }
 
     private void saveData() {
@@ -246,6 +238,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                 Provider.getInstance().setLatitude(addresses.get(0).getLatitude());
                 Provider.getInstance().setLongitude(addresses.get(0).getLongitude());
                 Provider.getInstance().setCountry(addresses.get(0).getCountryName());
+                saveData();
             } catch (IOException e) {
                 e.printStackTrace();
             }
