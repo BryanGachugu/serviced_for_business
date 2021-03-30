@@ -172,7 +172,16 @@ public class AvailabilityActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPS_REQUEST_CODE) {
-            
+            switch (requestCode){
+                case AvailabilityActivity.RESULT_OK:
+                    locationRequest();
+                    break;
+                case AvailabilityActivity.RESULT_CANCELED:
+                    Toast.makeText(this, "Location permission needed", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + requestCode);
+            }
         }
     }
 
