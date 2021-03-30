@@ -120,11 +120,10 @@ public class AvailabilityActivity extends AppCompatActivity {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
-                       getLocation();
+                        saveData();
                     } catch (Exception e) {
                         Log.d("LocationError", e.getMessage());
                     }
-                    saveData();
                 }
 
             } catch (Exception e) {
@@ -230,7 +229,6 @@ public class AvailabilityActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.d("TimeSet", e.getMessage());
         }
-
         return true;
     }
 
