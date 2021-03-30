@@ -120,7 +120,6 @@ public class AvailabilityActivity extends AppCompatActivity {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
-                        locationRequest();
                         saveData();
                     } catch (Exception e) {
                         Log.d("LocationError", e.getMessage());
@@ -173,12 +172,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPS_REQUEST_CODE) {
-            switch (requestCode) {
-                case AvailabilityActivity.RESULT_OK:
-                case AvailabilityActivity.RESULT_CANCELED:
-
-                    break;
-            }
+            
         }
     }
 
@@ -233,16 +227,14 @@ public class AvailabilityActivity extends AppCompatActivity {
     private void getLocation() {
         fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
             Location location = task.getResult();
-            if (location != null) {
-                try {
-                    Geocoder geocoder = new Geocoder(AvailabilityActivity.this, Locale.getDefault());
-                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    Provider.getInstance().setLatitude(addresses.get(0).getLatitude());
-                    Provider.getInstance().setLongitude(addresses.get(0).getLongitude());
-                    Provider.getInstance().setCountry(addresses.get(0).getCountryName());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                Geocoder geocoder = new Geocoder(AvailabilityActivity.this, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                Provider.getInstance().setLatitude(addresses.get(0).getLatitude());
+                Provider.getInstance().setLongitude(addresses.get(0).getLongitude());
+                Provider.getInstance().setCountry(addresses.get(0).getCountryName());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
         }).addOnFailureListener(e -> Toast.makeText(AvailabilityActivity.this, "Could not get your location", Toast.LENGTH_SHORT).show());
