@@ -37,7 +37,6 @@ public class LogInActivity extends AppCompatActivity {
 
         btn_logIn.setOnClickListener(v -> logInUser());
 
-
     }
 
     private void logInUser() {
