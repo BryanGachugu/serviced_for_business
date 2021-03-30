@@ -25,7 +25,7 @@ import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.github.mikephil.charting.data.Entry;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
@@ -247,10 +247,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private void logOutUser() {
         try {
             drawer_layout.closeDrawer(GravityCompat.START);
-            if (Provider.getInstance().isGoogleAuth()){
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-                
-            }
+            FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(this, LogInActivity.class));
         } catch (Exception e) {
             Toast.makeText(this, "Failed to log out", Toast.LENGTH_SHORT).show();
