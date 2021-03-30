@@ -25,7 +25,6 @@ import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.github.mikephil.charting.data.Entry;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
@@ -165,6 +164,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     public void onBackPressed() {
         if (drawer_layout.isDrawerVisible(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START);
+        } else if (navigation_view.getMenu().getItem(R.id.home_nav).isChecked()) {
+            System.exit(0);
         } else super.onBackPressed();
     }
 
