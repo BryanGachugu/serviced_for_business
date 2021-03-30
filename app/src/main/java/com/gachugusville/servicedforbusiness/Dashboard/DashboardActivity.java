@@ -36,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -164,8 +165,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     public void onBackPressed() {
         if (drawer_layout.isDrawerVisible(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START);
-        } else if (navigation_view.getMenu().getItem(R.id.home_nav).isChecked()) {
-            System.exit(0);
+        } else if (Objects.requireNonNull(navigation_view.getCheckedItem()).getItemId() == R.id.home_nav) {
+            finishAffinity();
+            finish();
         } else super.onBackPressed();
     }
 
