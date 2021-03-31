@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,9 +61,12 @@ public class SettingsActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        if (Provider.getInstance().getTime_available_from() == 24){
+            Provider.getInstance().setTime_available_from(0);
+        }
         float hour_available_from = Provider.getInstance().getTime_available_from();
         float hour_available_to = Provider.getInstance().getTime_available_to();
-        switch_available.setChecked(hour > hour_available_from && hour < hour_available_to);
+        switch_available.setChecked(hour >= hour_available_from && hour <= hour_available_to);
     }
 
     private void setAppVersion() {

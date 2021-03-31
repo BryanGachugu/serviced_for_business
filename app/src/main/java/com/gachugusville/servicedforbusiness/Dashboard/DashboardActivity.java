@@ -77,10 +77,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         //Updates all the data to the provider class
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()){
-                Provider provider = documentSnapshot.toObject(Provider.getInstance().getClass());
-                Provider.getInstance().setUser_name(provider.getUser_name());
-                Provider.getInstance().setRegistrationFinished(provider.isRegistrationFinished());
-                Log.d("WTF", String.valueOf(provider.isRegistrationFinished()));
+                documentSnapshot.toObject(Provider.getInstance().getClass());
+                Log.d("NAMEFFS", Provider.getInstance().getUser_name());
+                Log.d("WTF", String.valueOf(Provider.getInstance().isRegistrationFinished()));
             }
         }).addOnFailureListener(e ->{
             Toast.makeText(this, "An error occurred retrieving your data", Toast.LENGTH_SHORT).show();
@@ -92,9 +91,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        if(hour == 24){
-            hour = 0;
-        }
         String greeting;
         if (hour > 12 && hour < 17) {
             greeting = "Good Afternoon";
