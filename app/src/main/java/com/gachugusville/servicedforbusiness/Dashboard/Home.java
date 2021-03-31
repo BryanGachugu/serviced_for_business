@@ -59,7 +59,7 @@ public class Home extends Fragment {
         //If user authenticated with google, set the default profile image as the profile photo
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
-
+        
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
         } else if (Provider.getInstance().isGoogleAuth()) {

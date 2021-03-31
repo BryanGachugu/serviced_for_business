@@ -90,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:backgroundTint="@color/light_blue"
+                android:enabled="false"
                 app:thumbTint="@color/light_blue" />
 
         </RelativeLayout>

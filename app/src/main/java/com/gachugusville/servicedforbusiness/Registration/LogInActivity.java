@@ -16,10 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Dashboard.DashboardActivity;
 import com.gachugusville.servicedforbusiness.Genesis.StartActivity;
+import com.gachugusville.servicedforbusiness.Utils.Dialog;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
@@ -122,7 +126,21 @@ public class LogInActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == )
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d("GoogleSignIn", "firebaseAuthWithGoogle:" + account.getId());
+                Dialog dialog = new Dialog(LogInActivity.this);
+                dialog.startDialog();
+                firebaseAuthWithGoogle(account.getIdToken());
+                dialog.dismissDialog();
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w("GoogleSignIn", "Google sign in failed", e);
+            }
+        }
     }
 
     @Override
