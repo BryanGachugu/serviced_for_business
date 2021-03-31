@@ -76,7 +76,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         DocumentReference docRef = db.collection("Providers").document(Uid);
         //Updates all the data to the provider class
         docRef.get().addOnSuccessListener(documentSnapshot -> {
-            documentSnapshot.toObject(Provider.getInstance().getClass());
+            Provider provider = new Provider();
         }).addOnFailureListener(e ->
                 Toast.makeText(this, "An error occurred retrieving your data", Toast.LENGTH_SHORT).show());
 
