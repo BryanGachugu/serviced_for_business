@@ -32,6 +32,8 @@ import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.android.play.core.review.testing.FakeReviewManager;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +48,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private LinearLayout contentView;
     private ReviewManager manager;
     private ReviewInfo reviewInfo;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -67,6 +70,16 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         ImageView menu_init = findViewById(R.id.menu_init);
         ImageView btn_settings = findViewById(R.id.btn_settings);
         contentView = findViewById(R.id.contentView);
+
+        //Retrieve current user document using his unique ID
+        String Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        DocumentReference docRef = db.collection("Providers").document(Uid);
+        //Updates all the data to the provider class
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            Provider provider = new Provider();
+            documentSnapshot.toObject(provider.getClass());
+        }).addOnFailureListener(e ->
+                Toast.makeText(this, "An error occurred retrieving your data", Toast.LENGTH_SHORT).show());
 
         //Greet user based on time
         Date date = new Date();

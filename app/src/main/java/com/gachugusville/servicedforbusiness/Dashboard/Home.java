@@ -18,11 +18,14 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.majorik.sparklinelibrary.SparkLineLayout;
 import com.squareup.picasso.Picasso;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -30,9 +33,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import per.wsj.library.AndRatingBar;
 
 public class Home extends Fragment {
-
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
+    private URI imageURI;
+    private String myUr = "";
+    private StorageTask uploadTask;
+    private StorageReference storageProfilePIcRef;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -51,6 +57,8 @@ public class Home extends Fragment {
         TextView number_of_jobs = view.findViewById(R.id.number_of_jobs);
         CircleImageView profile_image = view.findViewById(R.id.profile_image);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference()
         //If user authenticated with google, set the default profile image as the profile photo
         if (Provider.getInstance().isGoogleAuth()) {
             assert user != null;
@@ -62,14 +70,9 @@ public class Home extends Fragment {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
         } else Picasso.get().load(R.drawable.test); //TODO (Load app icon as default image)
 
-        //Retrieve current user document using his unique ID
-        String Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        DocumentReference docRef = db.collection("Providers").document(Uid);
-        //Updates all the data to the provider class
-        docRef.get().addOnSuccessListener(documentSnapshot ->
-                documentSnapshot.toObject(Provider.getInstance().getClass()))
-                .addOnFailureListener(e ->
-                        Toast.makeText(getContext(), "An error occurred retrieving your data", Toast.LENGTH_SHORT).show());
+        profile_image.setOnClickListener(v -> {
+
+        });
 
         number_of_reviews.setText(String.valueOf(Provider.getInstance().getNumber_of_reviews()));
         number_of_views.setText(String.valueOf(Provider.getInstance().getAccount_views()));
