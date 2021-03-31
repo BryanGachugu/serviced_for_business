@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.gachugusville.development.servicedforbusiness.R;
@@ -18,15 +19,14 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
+import com.google.firebase.database.ValueEventListener;
 import com.majorik.sparklinelibrary.SparkLineLayout;
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -34,6 +34,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import per.wsj.library.AndRatingBar;
 
 public class Home extends Fragment {
+    private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
+    private CircleImageView profile_image;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -50,17 +54,20 @@ public class Home extends Fragment {
         AndRatingBar rating_bar = view.findViewById(R.id.rating_bar);
         TextView average_rating = view.findViewById(R.id.average_rating);
         TextView number_of_jobs = view.findViewById(R.id.number_of_jobs);
-        CircleImageView profile_image = view.findViewById(R.id.profile_image);
+        profile_image = view.findViewById(R.id.profile_image);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //If user authenticated with google, set the default profile image as the profile photo
-        if (Provider.getInstance().isGoogleAuth()) {
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+
+        if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
+            Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
+        } else if (Provider.getInstance().isGoogleAuth()) {
             assert user != null;
             String photo_url = Provider.getInstance().getProfile_pic_url();
             Picasso.get()
                     .load(photo_url)
                     .into(profile_image);
-        } else if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
-            Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
         } else Picasso.get().load(R.drawable.test); //TODO (Load app icon as default image)
 
         profile_image.setOnClickListener(v -> {
@@ -98,5 +105,25 @@ public class Home extends Fragment {
 
         return view;
     }
+
+    private void getUserInfo() {
+        databaseReference.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
+                    if (snapshot.hasChild("image")) {
+                        String image = snapshot.child("image").getValue().toString();
+                        Provider.getInstance().setProfile_pic_url(image);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
 }

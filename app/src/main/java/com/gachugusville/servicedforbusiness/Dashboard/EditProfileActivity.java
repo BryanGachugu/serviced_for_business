@@ -3,6 +3,7 @@ package com.gachugusville.servicedforbusiness.Dashboard;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.service.media.MediaBrowserService;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -37,7 +39,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Uri imageURI;
     private String myUri = "";
-    private StorageTask uploadTask;
     private StorageReference storageProfilePIcRef;
     private CircleImageView profile_image;
 
@@ -55,12 +56,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         getUserInfo();
 
-        btn_save_profile.setOnClickListener(v -> {
-            uploadProfileImage();
-        });
-        btn_change_profile.setOnClickListener(v -> {
-            CropImage.activity().setAspectRatio(1, 1).start(EditProfileActivity.this);
-        });
+        btn_save_profile.setOnClickListener(v -> uploadProfileImage());
+        btn_change_profile.setOnClickListener(v -> CropImage.activity(imageURI).setAspectRatio(1, 1).start(this));
 
 
     }
@@ -81,7 +78,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        })
+        });
     }
 
     private void uploadProfileImage() {
@@ -89,16 +86,12 @@ public class EditProfileActivity extends AppCompatActivity {
         dialog.startDialog();
         if (imageURI != null) {
             final StorageReference fileRef = storageProfilePIcRef.child(mAuth.getCurrentUser().getUid() + ".jpg");
-            uploadTask = fileRef.putFile(imageURI);
-            uploadTask.continueWithTask(new Continuation() {
-                @NonNull
-                @Override
-                public Object then(@NonNull Task task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return fileRef.getDownloadUrl();
+            StorageTask uploadTask = fileRef.putFile(imageURI);
+            uploadTask.continueWithTask((Continuation) task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
                 }
+                return fileRef.getDownloadUrl();
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
