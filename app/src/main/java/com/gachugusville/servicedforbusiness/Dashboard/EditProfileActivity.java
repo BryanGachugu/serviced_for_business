@@ -1,7 +1,9 @@
 package com.gachugusville.servicedforbusiness.Dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
@@ -12,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.net.URI;
 
@@ -39,7 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
             uploadProfileImage();
         });
         btn_change_profile.setOnClickListener(v -> {
-            
+            CropImage.activity().setAspectRatio(1, 1).start(EditProfileActivity.this);
         });
 
 
@@ -47,5 +50,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void uploadProfileImage() {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE  && resultCode == REA)
     }
 }
