@@ -63,12 +63,19 @@
             android:textColorHint="@color/black"
             tools:ignore="Autofill,HardcodedText" />
 
+        <TextView
+            android:id="@+id/txt_email_login_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/red" />
+
+
         <EditText
             android:id="@+id/password_logIn"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/bg_white_edit_text"
             android:drawableStart="@drawable/phone_icon"
@@ -82,6 +89,13 @@
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             tools:ignore="Autofill" />
+
+        <TextView
+            android:id="@+id/txt_password_login_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/red" />
 
         <TextView
             android:id="@+id/txt_forgotPassword"
