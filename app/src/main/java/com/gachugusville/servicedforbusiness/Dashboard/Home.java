@@ -63,7 +63,15 @@ public class Home extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         getUserInfo();
-        adjustLayouts();
+
+        if ((!Provider.getInstance().isRegistrationFinished())) {
+            card_registration_incomplete.setVisibility(View.VISIBLE);
+            card_registration_incomplete.setOnClickListener(v -> {
+                startActivity(new Intent(getContext(), NamesActivity.class));
+            });
+        } else if (Provider.getInstance().isRegistrationFinished()){
+            card_registration_incomplete.setVisibility(View.GONE);
+        }
 
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
@@ -113,14 +121,7 @@ public class Home extends Fragment {
     }
 
     private void adjustLayouts() {
-        if (!(Provider.getInstance().isRegistrationFinished())) {
-            card_registration_incomplete.setVisibility(View.VISIBLE);
-            card_registration_incomplete.setOnClickListener(v -> {
-                startActivity(new Intent(getContext(), NamesActivity.class));
-            });
-        } else if (Provider.getInstance().isRegistrationFinished()){
-            card_registration_incomplete.setVisibility(View.GONE);
-        }
+       
     }
 
     private void getUserInfo() {
