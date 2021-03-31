@@ -32,17 +32,12 @@ public class UserAgreements extends AppCompatActivity {
         MaterialButton finish_registration = findViewById(R.id.finish_registration);
         MaterialButton btn_decline_terms = findViewById(R.id.btn_decline_terms);
 
-
+        Provider.getInstance().setRegistrationFinished(true);
         btn_decline_terms.setOnClickListener(v1 -> UserAgreements.super.onBackPressed());
         finish_registration.setOnClickListener(v -> {
 
             if (isNetworkAvailable()) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Provider.getInstance().setRegistrationFinished(true);
-                    }
-                }, 200);
+
                 uploadData();
             } else {
                 Alerter.create(this)
