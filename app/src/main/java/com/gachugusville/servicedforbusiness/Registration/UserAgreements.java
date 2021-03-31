@@ -56,7 +56,10 @@ public class UserAgreements extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> Toast.makeText(UserAgreements.this, "Account creation success", Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> {
             Toast.makeText(UserAgreements.this, "Registration Failed", Toast.LENGTH_SHORT).show();
             Log.d("RegistrationFailed", e.getMessage());
-        }).addOnCompleteListener(UserAgreements.this, task -> startActivity(new Intent(UserAgreements.this, DashboardActivity.class)));
+        }).addOnCompleteListener(UserAgreements.this, task -> {
+            Provider.getInstance().setRegistrationFinished(true);
+            startActivity(new Intent(UserAgreements.this, DashboardActivity.class));
+        });
     }
 
     private boolean isNetworkAvailable() {

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.gachugusville.development.servicedforbusiness.R;
+import com.gachugusville.servicedforbusiness.Registration.NamesActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
@@ -37,6 +38,7 @@ public class Home extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
     private CircleImageView profile_image;
+    private MaterialCardView card_registration_incomplete;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,12 +56,15 @@ public class Home extends Fragment {
         AndRatingBar rating_bar = view.findViewById(R.id.rating_bar);
         TextView average_rating = view.findViewById(R.id.average_rating);
         TextView number_of_jobs = view.findViewById(R.id.number_of_jobs);
+        card_registration_incomplete = view.findViewById(R.id.card_registration_incomplete);
         profile_image = view.findViewById(R.id.profile_image);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //If user authenticated with google, set the default profile image as the profile photo
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
-        
+        getUserInfo();
+        adjustLayouts();
+
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
         } else if (Provider.getInstance().isGoogleAuth()) {
@@ -104,6 +109,15 @@ public class Home extends Fragment {
         line_graph.setData(dataset);
 
         return view;
+    }
+
+    private void adjustLayouts() {
+        if (!Provider.getInstance().isRegistrationFinished()) {
+            card_registration_incomplete.setVisibility(View.VISIBLE);
+            card_registration_incomplete.setOnClickListener(v -> {
+                startActivity(new Intent(getContext(), NamesActivity.class));
+            });
+        } else card_registration_incomplete.setVisibility(View.GONE);
     }
 
     private void getUserInfo() {

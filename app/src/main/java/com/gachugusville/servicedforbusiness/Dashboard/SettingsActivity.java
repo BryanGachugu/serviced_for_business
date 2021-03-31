@@ -1,21 +1,22 @@
 package com.gachugusville.servicedforbusiness.Dashboard;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
+import com.gachugusville.servicedforbusiness.Genesis.StartActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.MessageFormat;
 import java.util.Calendar;
@@ -39,7 +40,19 @@ public class SettingsActivity extends AppCompatActivity {
 
         setAppVersion();
         setAvailabilityStatus();
+        findViewById(R.id.btn_delete_account).setOnClickListener(v -> deleteUser());
 
+    }
+
+    private void deleteUser() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.getCurrentUser()
+                .delete()
+                .addOnSuccessListener(aVoid -> FirebaseFirestore.getInstance()
+                        .collection("Providers")
+                        .document(auth.getCurrentUser().getUid())
+                        .delete().addOnCompleteListener(command -> startActivity(new Intent(SettingsActivity.this, StartActivity.class))))
+                .addOnFailureListener(e -> Toast.makeText(SettingsActivity.this, "Error", Toast.LENGTH_SHORT).show());
     }
 
     private void setAvailabilityStatus() {

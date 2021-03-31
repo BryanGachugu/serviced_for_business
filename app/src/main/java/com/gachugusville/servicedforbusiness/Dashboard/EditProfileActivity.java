@@ -3,7 +3,6 @@ package com.gachugusville.servicedforbusiness.Dashboard;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.service.media.MediaBrowserService;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,10 +21,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -98,16 +97,26 @@ public class EditProfileActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
                         myUri = downloadUri.toString();
-
                         HashMap<String, Object> userMap = new HashMap<>();
                         userMap.put("image", myUri);
 
                         databaseReference.child(mAuth.getCurrentUser().getUid()).updateChildren(userMap);
-                        dialog.dismissDialog();
+                        FirebaseFirestore.getInstance()
+                                .collection("Providers")
+                                .document(mAuth.getCurrentUser().getUid())
+                                .update("profile_pic_url", myUri)
+                                .addOnCompleteListener(command -> {
+                                    dialog.dismissDialog();
+                                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                }).addOnFailureListener(command -> {
+                            dialog.dismissDialog();
+                            Toast.makeText(EditProfileActivity.this, "Error, try again", Toast.LENGTH_SHORT).show();
+                        });
                     }
                 }
             });
         } else {
+            dialog.dismissDialog();
             Toast.makeText(this, "Image not selected", Toast.LENGTH_SHORT).show();
         }
 
