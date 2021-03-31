@@ -88,6 +88,7 @@ public class Home extends Fragment {
         } catch (Exception e) {
             Log.d("RatingError", e.getMessage());
             Toast.makeText(getContext(), "Error getting your average rating", Toast.LENGTH_LONG).show();
+
         }
         number_of_jobs.setText(String.valueOf(Provider.getInstance().getJobs_done()));
 
