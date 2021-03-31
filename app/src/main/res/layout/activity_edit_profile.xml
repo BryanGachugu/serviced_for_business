@@ -36,7 +36,6 @@
         android:id="@+id/doted"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_below="@id/tags_back_btn"
         android:background="@drawable/dottedd_line" />
 
     <de.hdodenhof.circleimageview.CircleImageView
