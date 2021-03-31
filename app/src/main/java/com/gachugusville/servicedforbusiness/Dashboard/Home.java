@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.majorik.sparklinelibrary.SparkLineLayout;
@@ -33,12 +34,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import per.wsj.library.AndRatingBar;
 
 public class Home extends Fragment {
-    private DatabaseReference databaseReference;
-    private FirebaseAuth mAuth;
-    private URI imageURI;
-    private String myUr = "";
-    private StorageTask uploadTask;
-    private StorageReference storageProfilePIcRef;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -57,8 +52,6 @@ public class Home extends Fragment {
         TextView number_of_jobs = view.findViewById(R.id.number_of_jobs);
         CircleImageView profile_image = view.findViewById(R.id.profile_image);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference()
         //If user authenticated with google, set the default profile image as the profile photo
         if (Provider.getInstance().isGoogleAuth()) {
             assert user != null;
@@ -71,7 +64,7 @@ public class Home extends Fragment {
         } else Picasso.get().load(R.drawable.test); //TODO (Load app icon as default image)
 
         profile_image.setOnClickListener(v -> {
-
+            startActivity(new Intent(getContext(), EditProfileActivity.class));
         });
 
         number_of_reviews.setText(String.valueOf(Provider.getInstance().getNumber_of_reviews()));

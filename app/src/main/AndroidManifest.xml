@@ -16,6 +16,7 @@
         android:roundIcon="@drawable/test"
         android:supportsRtl="true"
         android:theme="@style/Theme.ServicedForBusiness">
+        <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.EditProfileActivity"></activity>
         <activity android:name="com.gachugusville.servicedforbusiness.Registration.ResetPasswordActivity" />
         <activity android:name="com.gachugusville.servicedforbusiness.Registration.LogInActivity" />
         <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.SettingsActivity" />

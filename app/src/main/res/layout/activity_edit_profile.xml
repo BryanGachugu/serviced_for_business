@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.gachugusville.servicedforbusiness.Dashboard.EditProfileActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/tags_back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/arrow_back"
+            app:tint="@color/light_blue"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/txt_abt_you"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:text="Change Profile Picture"
+            android:textColor="@color/purple_700"
+            android:textSize="22sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/doted"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@id/tags_back_btn"
+        android:background="@drawable/dottedd_line" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/test" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_close"
+            android:layout_width="130dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_blue"
+            android:fontFamily="@string/sans_serif"
+            android:text="Close"
+            android:textAllCaps="false"
+            app:cornerRadius="30dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save_profile"
+            android:layout_width="130dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFC107"
+            android:fontFamily="@string/sans_serif"
+            android:text="Save Profile"
+            android:textAllCaps="false"
+            app:cornerRadius="30dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
