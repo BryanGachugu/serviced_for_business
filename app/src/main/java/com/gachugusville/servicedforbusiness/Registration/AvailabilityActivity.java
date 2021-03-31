@@ -121,6 +121,7 @@ public class AvailabilityActivity extends AppCompatActivity {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
                 } else {
                     locationRequest();
+                    saveData();
                 }
 
             } catch (Exception e) {
@@ -188,7 +189,8 @@ public class AvailabilityActivity extends AppCompatActivity {
             Provider.getInstance().setAvailable_country_wide(true);
             Provider.getInstance().setReach_in_distance(0);
         } else {
-            Provider.getInstance().setReach_in_distance(Integer.parseInt(Objects.requireNonNull(edit_distance_radius.getText()).toString().trim()));
+            int distance_int = Integer.parseInt(edit_distance_radius.getText().toString().trim());
+            Provider.getInstance().setReach_in_distance(distance_int);
             Provider.getInstance().setAvailable_country_wide(false);
         }
         List<MaterialDayPicker.Weekday> selectedDays = day_picker.getSelectedDays();
@@ -238,7 +240,6 @@ public class AvailabilityActivity extends AppCompatActivity {
                 Provider.getInstance().setLatitude(addresses.get(0).getLatitude());
                 Provider.getInstance().setLongitude(addresses.get(0).getLongitude());
                 Provider.getInstance().setCountry(addresses.get(0).getCountryName());
-                saveData();
             } catch (IOException e) {
                 e.printStackTrace();
             }
