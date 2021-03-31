@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -36,6 +37,12 @@ public class UserAgreements extends AppCompatActivity {
         finish_registration.setOnClickListener(v -> {
 
             if (isNetworkAvailable()) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Provider.getInstance().setRegistrationFinished(true);
+                    }
+                }, 200);
                 uploadData();
             } else {
                 Alerter.create(this)
@@ -57,7 +64,6 @@ public class UserAgreements extends AppCompatActivity {
             Toast.makeText(UserAgreements.this, "Registration Failed", Toast.LENGTH_SHORT).show();
             Log.d("RegistrationFailed", e.getMessage());
         }).addOnCompleteListener(UserAgreements.this, task -> {
-            Provider.getInstance().setRegistrationFinished(true);
             startActivity(new Intent(UserAgreements.this, DashboardActivity.class));
         });
     }
