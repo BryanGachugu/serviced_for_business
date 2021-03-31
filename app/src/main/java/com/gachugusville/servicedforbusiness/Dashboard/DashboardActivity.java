@@ -25,6 +25,7 @@ import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.github.mikephil.charting.data.Entry;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
@@ -33,6 +34,7 @@ import com.google.android.play.core.review.testing.FakeReviewManager;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -75,16 +77,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         String Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         DocumentReference docRef = db.collection("Providers").document(Uid);
         //Updates all the data to the provider class
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()){
-                documentSnapshot.toObject(Provider.getInstance().getClass());
-                Log.d("NAMEFFS", Provider.getInstance().getUser_name());
-                Log.d("WTF", String.valueOf(Provider.getInstance().isRegistrationFinished()));
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull com.google.android.gms.tasks.Task<DocumentSnapshot> task) {
+                
             }
-        }).addOnFailureListener(e ->{
-            Toast.makeText(this, "An error occurred retrieving your data", Toast.LENGTH_SHORT).show();
-            Log.d("'Retrieval", e.getMessage());
-        });
+        })
 
         //Greet user based on time
         Date date = new Date();
