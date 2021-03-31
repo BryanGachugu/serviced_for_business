@@ -54,28 +54,28 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_close"
-            android:layout_width="130dp"
+            android:id="@+id/btn_change_profile"
+            android:layout_width="150dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:backgroundTint="@color/light_blue"
             android:fontFamily="@string/sans_serif"
-            android:text="Close"
+            android:text="Change photo"
             android:textAllCaps="false"
             app:cornerRadius="30dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_profile"
-            android:layout_width="130dp"
+            android:layout_width="150dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:backgroundTint="#FFC107"
             android:fontFamily="@string/sans_serif"
-            android:text="Save Profile"
+            android:text="Save Photo"
             android:textAllCaps="false"
             app:cornerRadius="30dp" />
 
