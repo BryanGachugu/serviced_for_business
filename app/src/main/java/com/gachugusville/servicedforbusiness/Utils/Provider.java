@@ -26,6 +26,7 @@ public class Provider {
     List<MaterialDayPicker.Weekday> days_available;
     String profile_pic_url = "";
     boolean available_country_wide, always_available, isGoogleAuth;
+    int total_reviews = 0;
     float rating = 0f;
     int time_available_from = 0, time_available_to = 0;
     float reach_in_distance = 0f;
@@ -36,7 +37,7 @@ public class Provider {
     private Provider(String user_name, String brand_name, String service_category, String service_identity, String personal_description,
                      String short_note_to_users, String phone, double latitude, double longitude, String profile_pic_url, String ref_url1, String ref_url2, String email, String country, List<Reviews> reviews, List<String> provider_skills,
                      List<MaterialDayPicker.Weekday> days_available, boolean available_country_wide,
-                     boolean always_available, boolean isGoogleAuth, float rating, int time_available_from, int time_available_to, float reach_in_distance, int number_of_ratings,
+                     boolean always_available, boolean isGoogleAuth, int total_reviews, float rating, int time_available_from, int time_available_to, float reach_in_distance, int number_of_ratings,
                      int jobs_done, int account_views, int number_of_reviews, int number_of_profile_likes, double estimated_earnings) {
         this.user_name = user_name;
         this.brand_name = brand_name;
@@ -58,6 +59,7 @@ public class Provider {
         this.available_country_wide = available_country_wide;
         this.always_available = always_available;
         this.isGoogleAuth = isGoogleAuth;
+        this.total_reviews = total_reviews;
         this.rating = rating;
         this.time_available_from = time_available_from;
         this.time_available_to = time_available_to;
@@ -229,6 +231,8 @@ public class Provider {
     public void setGoogleAuth(boolean googleAuth) {
         isGoogleAuth = googleAuth;
     }
+
+
 
     public float getRating() {
         return rating;
