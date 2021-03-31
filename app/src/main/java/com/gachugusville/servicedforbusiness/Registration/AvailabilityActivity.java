@@ -188,7 +188,7 @@ public class AvailabilityActivity extends AppCompatActivity {
             Provider.getInstance().setAvailable_country_wide(true);
             Provider.getInstance().setReach_in_distance(0);
         } else {
-            Provider.getInstance().setReach_in_distance(Integer.parseInt(Objects.requireNonNull(edit_distance_radius.getText()).toString()));
+            Provider.getInstance().setReach_in_distance(Integer.parseInt(Objects.requireNonNull(edit_distance_radius.getText()).toString().trim()));
             Provider.getInstance().setAvailable_country_wide(false);
         }
         List<MaterialDayPicker.Weekday> selectedDays = day_picker.getSelectedDays();
