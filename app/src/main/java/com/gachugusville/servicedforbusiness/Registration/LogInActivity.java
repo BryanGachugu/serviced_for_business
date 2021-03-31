@@ -66,7 +66,7 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
         txt_signUp.setOnClickListener(v -> startActivity(new Intent(this, SignUp.class)));
-        findViewById(R.id.log_in_back_btn).setOnClickListener(v -> LogInActivity.super.onBackPressed());
+        findViewById(R.id.log_in_back_btn).setOnClickListener(v -> startActivity(new Intent(this, StartActivity.class)));
         findViewById(R.id.txt_forgotPassword).setOnClickListener(v -> startActivity(new Intent(this, ResetPasswordActivity.class)));
 
         btn_logIn.setOnClickListener(v -> logInUser());
