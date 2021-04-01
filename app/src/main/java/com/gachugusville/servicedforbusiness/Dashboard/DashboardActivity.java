@@ -25,7 +25,6 @@ import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.github.mikephil.charting.data.Entry;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -53,6 +52,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private ReviewManager manager;
     private ReviewInfo reviewInfo;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final String Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+    private final DocumentReference docRef = db.collection("Providers").document(Uid);
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -75,23 +76,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         ImageView btn_settings = findViewById(R.id.btn_settings);
         contentView = findViewById(R.id.contentView);
 
-        //Retrieve current user document using his unique ID
-        String Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        DocumentReference docRef = db.collection("Providers").document(Uid);
         //Updates all the data to the provider class
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
-                Provider.getInstance().setRegistrationFinished(documentSnapshot.getBoolean("registrationFinished"));
-                Provider.getInstance().setTime_available_from((int) documentSnapshot.get("time_available_from"));
-                Log.d("douiahp", String.valueOf(Provider.getInstance().isRegistrationFinished()));
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Failure", e.getLocalizedMessage());
-            }
-        });
+        getAllDataFromDatabase();
         //Greet user based on time
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -147,6 +133,24 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // lineDataSet.disableDashedLine();
         // lineDataSet.disableDashedHighlightLine();
 
+    }
+
+    private void getAllDataFromDatabase() {
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()){
+                Provider.getInstance().setRegistrationFinished(documentSnapshot.getBoolean("registrationFinished"));
+                Provider.getInstance().setTime_available_from((int) documentSnapshot.get("time_available_from"));
+                Log.d("douiahp", String.valueOf(Provider.getInstance().isRegistrationFinished()));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Failure", e.getLocalizedMessage());
+            }
+        });
     }
 
     private void animateNavigationDrawer() {

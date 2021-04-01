@@ -69,8 +69,6 @@ public class Home extends Fragment {
             card_registration_incomplete.setOnClickListener(v -> {
                 startActivity(new Intent(getContext(), NamesActivity.class));
             });
-        } else if (Provider.getInstance().isRegistrationFinished()){
-            card_registration_incomplete.setVisibility(View.GONE);
         }
 
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
