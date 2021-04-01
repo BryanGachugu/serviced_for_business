@@ -80,9 +80,14 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull com.google.android.gms.tasks.Task<DocumentSnapshot> task) {
-                
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    Toast.makeText(DashboardActivity.this, (String) document.get("user_name"), Toast.LENGTH_SHORT).show();
+                    Log.d("AboutTime", (String) document.get("user_name"));
+                    
+                }
             }
-        })
+        });
 
         //Greet user based on time
         Date date = new Date();
