@@ -16,7 +16,6 @@
             android:id="@+id/card_registration_incomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:backgroundTint="@android:color/transparent"
             android:elevation="10dp"
             app:cardCornerRadius="20dp">
@@ -31,38 +30,38 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/crimson_text"
                     android:backgroundTint="@android:color/transparent"
+                    android:fontFamily="@font/crimson_text"
+                    android:text="@string/you_did_not_complete_your_registration"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="22sp"
-                    android:text="@string/you_did_not_complete_your_registration"/>
+                    android:textSize="22sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/crimson_text"
                     android:backgroundTint="@android:color/transparent"
+                    android:fontFamily="@font/crimson_text"
+                    android:text="@string/users_will_not_be_able_to_view_your_profile"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
-                   android:textSize="18sp"
-                    android:text="@string/users_will_not_be_able_to_view_your_profile"/>
+                    android:textSize="18sp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/back_to_registration"
+                    android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    app:cornerRadius="60dp"
+                    android:backgroundTint="#FFAB00"
                     android:drawableEnd="@drawable/arrow_right"
                     android:drawableTint="@color/black"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:textAllCaps="false"
                     android:fontFamily="@font/crimson_text"
-                    android:backgroundTint="#FFAB00"/>
+                    android:text="@string/back_to_registration"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    app:cornerRadius="60dp" />
 
             </LinearLayout>
 

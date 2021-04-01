@@ -26,6 +26,8 @@ import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.github.mikephil.charting.data.Entry;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
@@ -77,18 +79,19 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         String Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         DocumentReference docRef = db.collection("Providers").document(Uid);
         //Updates all the data to the provider class
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull com.google.android.gms.tasks.Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    Toast.makeText(DashboardActivity.this, (String) document.get("user_name"), Toast.LENGTH_SHORT).show();
-                    Log.d("AboutTime", (String) document.get("user_name"));
-                    
-                }
+            public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
+                Provider.getInstance().setRegistrationFinished(documentSnapshot.getBoolean("registrationFinished"));
+                Provider.getInstance().setTime_available_from((int) documentSnapshot.get("time_available_from"));
+                Log.d("douiahp", String.valueOf(Provider.getInstance().isRegistrationFinished()));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Failure", e.getLocalizedMessage());
             }
         });
-
         //Greet user based on time
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
