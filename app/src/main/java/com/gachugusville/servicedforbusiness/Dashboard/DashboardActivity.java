@@ -141,7 +141,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()){
                 Provider.getInstance().setRegistrationFinished(documentSnapshot.getBoolean("registrationFinished"));
-                Provider.getInstance().setTime_available_from((int) documentSnapshot.get("time_available_from"));
+                Provider.getInstance().setTime_available_from((Integer) documentSnapshot.get("time_available_from"));
                 Log.d("douiahp", String.valueOf(Provider.getInstance().isRegistrationFinished()));
                 }
             }

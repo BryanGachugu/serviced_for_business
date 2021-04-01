@@ -62,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
         calendar.setTime(date);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         if (Provider.getInstance().getTime_available_from() == 24){
-            Provider.getInstance().setTime_available_from(0);
+            Provider.getInstance().setTime_available_from((short) 0);
         }
         float hour_available_from = Provider.getInstance().getTime_available_from();
         float hour_available_to = Provider.getInstance().getTime_available_to();
