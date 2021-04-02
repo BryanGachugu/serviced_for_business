@@ -16,6 +16,7 @@ import com.gachugusville.servicedforbusiness.Dashboard.DashboardActivity;
 import com.gachugusville.servicedforbusiness.Registration.AvailabilityActivity;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Registration.SignUp;
+import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class StartActivity extends AppCompatActivity {
     private static final int GPS_REQUEST_CODE = 1001;
+    public Provider providerJane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
