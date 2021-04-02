@@ -44,8 +44,8 @@ import per.wsj.library.AndRatingBar;
 
 public class Home extends Fragment {
     private FirebaseAuth mAuth;
+    private final boolean isGoogleAuth = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(1).getProviderId().equals(GoogleAuthProvider.PROVIDER_ID);
     private DatabaseReference databaseReference;
-    private CircleImageView profile_image;
     private MaterialCardView card_registration_incomplete;
 
     @Override
@@ -65,19 +65,18 @@ public class Home extends Fragment {
         TextView average_rating = view.findViewById(R.id.average_rating);
         TextView number_of_jobs = view.findViewById(R.id.number_of_jobs);
         card_registration_incomplete = view.findViewById(R.id.card_registration_incomplete);
-        profile_image = view.findViewById(R.id.profile_image);
+        CircleImageView profile_image = view.findViewById(R.id.profile_image);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //If user authenticated with google, set the default profile image as the profile photo
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         getUserInfo();
-        String id = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getProviderId();
-        Log.d("UserProviderId",  id);
+        Log.d("UserProviderId",  String.valueOf(isGoogleAuth));
         card_registration_incomplete.setOnClickListener(v -> startActivity(new Intent(getContext(), NamesActivity.class)));
 
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
-        } else if (FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals(GoogleAuthProvider.PROVIDER_ID)) {
+        } else if (isGoogleAuth) {
             assert user != null;
             String photo_url = Provider.getInstance().getProfile_pic_url();
             Picasso.get()

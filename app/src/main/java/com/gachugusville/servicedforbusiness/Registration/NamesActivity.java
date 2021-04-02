@@ -26,6 +26,7 @@ public class NamesActivity extends AppCompatActivity {
     private LinearLayout name_layout, brand_layout;
     private EditText edt_user_name, edt_brand_name;
     private TextView txt_user_name_error, txt_brand_name_error;
+    private final boolean isGoogleAuth = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(1).getProviderId().equals(GoogleAuthProvider.PROVIDER_ID);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class NamesActivity extends AppCompatActivity {
         FirebaseUser auth = FirebaseAuth.getInstance().getCurrentUser();
 
         retailer_signUp_back_btn.setOnClickListener(v -> startActivity(new Intent(this, StartActivity.class)));
-        if (FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals(GoogleAuthProvider.PROVIDER_ID)) {
+        if (isGoogleAuth) {
             assert auth != null;
             Provider.getInstance().setEmail(auth.getEmail());
             Provider.getInstance().setProfile_pic_url(auth.getPhotoUrl().toString());
