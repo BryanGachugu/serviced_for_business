@@ -1,9 +1,7 @@
 package com.gachugusville.servicedforbusiness.Dashboard;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +18,14 @@ import com.gachugusville.servicedforbusiness.Registration.NamesActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.majorik.sparklinelibrary.SparkLineLayout;
 import com.squareup.picasso.Picasso;
 
@@ -71,7 +64,7 @@ public class Home extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         getUserInfo();
-        Log.d("UserProviderId",  String.valueOf(isGoogleAuth));
+        Log.d("UserProviderId", String.valueOf(isGoogleAuth));
         card_registration_incomplete.setOnClickListener(v -> startActivity(new Intent(getContext(), NamesActivity.class)));
 
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
@@ -92,8 +85,13 @@ public class Home extends Fragment {
         number_of_views.setText(String.valueOf(Provider.getInstance().getAccount_views()));
         estimated_earnings.setText(String.valueOf(Provider.getInstance().getEstimated_earnings()));
         try {
-            average_rating.setText(String.valueOf(Provider.getInstance().getRating()));
-            rating_bar.setRating(Provider.getInstance().getRating());
+            if (Provider.getInstance().getNumber_of_reviews() == 0) {
+                average_rating.setText(String.valueOf(0));
+                Provider.getInstance().setRating(0f);
+            } else {
+                average_rating.setText(String.valueOf(Provider.getInstance().getRating()));
+                rating_bar.setRating(Provider.getInstance().getRating());
+            }
         } catch (Exception e) {
             Log.d("RatingError", e.getMessage());
             Toast.makeText(getContext(), "Error getting your average rating", Toast.LENGTH_LONG).show();
@@ -122,7 +120,7 @@ public class Home extends Fragment {
     }
 
     private void adjustLayouts() {
-       
+
     }
 
     private void getUserInfo() {
@@ -149,7 +147,7 @@ public class Home extends Fragment {
         super.onStart();
         if (Provider.getInstance().isRegistrationFinished()) {
             card_registration_incomplete.setVisibility(View.GONE);
-        }else {
+        } else {
             card_registration_incomplete.setVisibility(View.VISIBLE);
         }
     }
