@@ -55,7 +55,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private ReviewInfo reviewInfo;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final String Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-    private final DocumentReference docRef = db.collection("Providers").document(Uid);
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -80,7 +79,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         contentView = findViewById(R.id.contentView);
 
         //Updates all the data to the provider class
-        getAllDataFromDatabase();
         //Greet user based on time
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -136,24 +134,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // lineDataSet.disableDashedLine();
         // lineDataSet.disableDashedHighlightLine();
 
-    }
-
-    private void getAllDataFromDatabase() {
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    Provider.getInstance().setUser_name(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getUser_name());
-                    Provider.getInstance().setRegistrationFinished(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).isRegistrationFinished());
-                    Log.d("Fuck", String.valueOf(Provider.getInstance().isRegistrationFinished()));
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Failure", e.getLocalizedMessage());
-            }
-        });
     }
 
     private void animateNavigationDrawer() {
@@ -319,7 +299,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             if (task.isSuccessful()) {
                 reviewInfo = task.getResult();
                 Task<Void> flow = manager.launchReviewFlow(DashboardActivity.this, reviewInfo);
-                flow.addOnSuccessListener(result -> findViewById(R.id.rate_nav).setVisibility(View.GONE)).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "An internal error occured", Toast.LENGTH_SHORT).show());
+                flow.addOnSuccessListener(result -> Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "An internal error occured", Toast.LENGTH_SHORT).show());
             } else {
                 Toast.makeText(DashboardActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }

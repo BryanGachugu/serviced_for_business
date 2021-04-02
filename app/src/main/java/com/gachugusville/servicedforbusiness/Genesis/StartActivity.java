@@ -30,7 +30,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class StartActivity extends AppCompatActivity {
     private static final int GPS_REQUEST_CODE = 1001;
-    public Provider providerJane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
