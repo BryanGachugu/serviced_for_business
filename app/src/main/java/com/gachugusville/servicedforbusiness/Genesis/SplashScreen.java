@@ -37,7 +37,9 @@ public class SplashScreen extends AppCompatActivity {
 
     private void getAllDataFromDatabase() {
         docRef.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
+            if (!documentSnapshot.exists()) {
+                startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
+            }else {
                 Provider.getInstance().setUser_name(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getUser_name());
                 Provider.getInstance().setRegistrationFinished(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).isRegistrationFinished());
                 Provider.getInstance().setBrand_name(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getBrand_name());
@@ -70,12 +72,10 @@ public class SplashScreen extends AppCompatActivity {
                 Provider.getInstance().setLatitude(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getLatitude());
                 Provider.getInstance().setLatitude(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getLongitude());
             }
-            startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("Failure", e.getLocalizedMessage());
-                startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
             }
         });
     }
