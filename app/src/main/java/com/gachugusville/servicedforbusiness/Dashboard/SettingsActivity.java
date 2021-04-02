@@ -16,6 +16,7 @@ import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Genesis.StartActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -46,14 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void deleteUser() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.getCurrentUser()
-                .delete()
-                .addOnSuccessListener(aVoid -> FirebaseFirestore.getInstance()
-                        .collection("Providers")
-                        .document(auth.getCurrentUser().getUid())
-                        .delete().addOnCompleteListener(command -> startActivity(new Intent(SettingsActivity.this, StartActivity.class))))
-                .addOnFailureListener(e -> Toast.makeText(SettingsActivity.this, "Error", Toast.LENGTH_SHORT).show());
+
     }
 
     private void setAvailabilityStatus() {
