@@ -34,6 +34,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.tapadoo.alerter.Alerter;
 
 import java.util.Objects;
@@ -162,8 +164,16 @@ public class SignUp extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        Provider.getInstance().setGoogleAuth(true);
-                        startActivity(new Intent(SignUp.this, NamesActivity.class));
+                        String Uid = auth.getCurrentUser().getUid();
+                        DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Providers").document(Uid);
+                        documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                startActivity(new Intent(SignUp.this, DashboardActivity.class));
+                            } else {
+                                startActivity(new Intent(SignUp.this, NamesActivity.class));
+                                Provider.getInstance().setPhone(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
+                            }
+                        });
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("GoogleSignIn", "signInWithCredential:failure", task.getException());
@@ -213,7 +223,6 @@ public class SignUp extends AppCompatActivity {
                             }
                             dialog.dismissDialog();
                             startActivity(new Intent(SignUp.this, NamesActivity.class));
-                            Provider.getInstance().setGoogleAuth(false);
                         } else {
                             // If sign in fails, display a message to the user.
                             dialog.dismissDialog();

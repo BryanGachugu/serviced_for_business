@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,11 +24,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.tapadoo.alerter.Alerter;
 
 import java.util.Objects;
@@ -154,12 +159,17 @@ public class LogInActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                            startActivity(new Intent(LogInActivity.this, DashboardActivity.class));
-                        }
-                        startActivity(new Intent(LogInActivity.this, NamesActivity.class));
-                        Provider.getInstance().setPhone(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
-                        Provider.getInstance().setGoogleAuth(true);
+                        String Uid = auth.getCurrentUser().getUid();
+                        DocumentReference documentReference = FirebaseFirestore.getInstance().collection("Providers").document(Uid);
+                        documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()){
+                                startActivity(new Intent(LogInActivity.this, DashboardActivity.class));
+                            }
+                            else {
+                                startActivity(new Intent(LogInActivity.this, NamesActivity.class));
+                                Provider.getInstance().setPhone(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
+                            }
+                        });
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("GoogleSignIn", "signInWithCredential:failure", task.getException());

@@ -69,7 +69,7 @@ public class Home extends Fragment {
 
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
-        } else if (Provider.getInstance().isGoogleAuth()) {
+        } else if (FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals("google.com")) {
             assert user != null;
             String photo_url = Provider.getInstance().getProfile_pic_url();
             Picasso.get()

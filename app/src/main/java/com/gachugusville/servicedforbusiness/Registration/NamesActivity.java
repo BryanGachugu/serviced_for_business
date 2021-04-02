@@ -20,8 +20,6 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Objects;
-
 public class NamesActivity extends AppCompatActivity {
     private ChipGroup chip_group;
     private LinearLayout name_layout, brand_layout;
@@ -47,7 +45,10 @@ public class NamesActivity extends AppCompatActivity {
 
         retailer_signUp_back_btn.setOnClickListener(v -> startActivity(new Intent(this, StartActivity.class)));
 
-        if (FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals("")) {
+        if (FirebaseAuth.getInstance()
+                .getCurrentUser()
+                .getProviderId()
+                .equals("google.com")) {
             assert auth != null;
             Provider.getInstance().setEmail(auth.getEmail());
             Provider.getInstance().setProfile_pic_url(auth.getPhotoUrl().toString());
