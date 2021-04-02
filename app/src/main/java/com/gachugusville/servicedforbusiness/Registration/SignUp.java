@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.transition.Slide;
 import android.util.Log;
 import android.widget.EditText;
@@ -171,6 +172,11 @@ public class SignUp extends AppCompatActivity {
                             if (documentSnapshot.exists()) {
                                 startActivity(new Intent(SignUp.this, DashboardActivity.class));
                             } else {
+                                Provider.getInstance().setGoogleAuth(true);
+                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putBoolean("isGoogleAuth", Provider.getInstance().isAlways_available());
+                                editor.apply();
                                 startActivity(new Intent(SignUp.this, NamesActivity.class));
                                 Provider.getInstance().setPhone(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
                             }

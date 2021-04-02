@@ -1,7 +1,9 @@
 package com.gachugusville.servicedforbusiness.Dashboard;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,11 +69,12 @@ public class Home extends Fragment {
 
         card_registration_incomplete.setOnClickListener(v -> startActivity(new Intent(getContext(), NamesActivity.class)));
 
-        
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean isGoogleAuth = preferences.getBoolean("isGoogleAuth", false);
 
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
-        } else if (FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals("google.com")) {
+        } else if (isGoogleAuth) {
             assert user != null;
             String photo_url = Provider.getInstance().getProfile_pic_url();
             Picasso.get()

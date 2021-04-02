@@ -45,10 +45,7 @@ public class NamesActivity extends AppCompatActivity {
 
         retailer_signUp_back_btn.setOnClickListener(v -> startActivity(new Intent(this, StartActivity.class)));
 
-        if (FirebaseAuth.getInstance()
-                .getCurrentUser()
-                .getProviderId()
-                .equals("google.com")) {
+        if (Provider.getInstance().isGoogleAuth() {
             assert auth != null;
             Provider.getInstance().setEmail(auth.getEmail());
             Provider.getInstance().setProfile_pic_url(auth.getPhotoUrl().toString());
