@@ -91,4 +91,7 @@
     <string name="you_did_not_complete_your_registration">You did not complete your registration</string>
     <string name="users_will_not_be_able_to_view_your_profile">Users will not be able to view your profile</string>
     <string name="back_to_registration">back to registration</string>
+    <string name="title_location_permission">Serviced Location access</string>
+    <string name="text_location_permission">Serviced for business needs to access your location to link you with the closest service seekers</string>
+    <string name="ok">Ok</string>
 </resources>

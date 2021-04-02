@@ -139,9 +139,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()){
-                Provider.getInstance().setRegistrationFinished(documentSnapshot.getBoolean("registrationFinished"));
-                Log.d("douiahp", String.valueOf(Provider.getInstance().isRegistrationFinished()));
+                if (documentSnapshot.exists()) {
+                    Provider.getInstance().setRegistrationFinished(documentSnapshot.getBoolean("registrationFinished"));
+                    Log.d("douiahp", String.valueOf(Provider.getInstance().isRegistrationFinished()));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

@@ -2,7 +2,9 @@ package com.gachugusville.servicedforbusiness.Registration;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
@@ -53,8 +56,7 @@ public class AvailabilityActivity extends AppCompatActivity {
     private TextView txt_time_from, txt_time_to;
     private MaterialDayPicker day_picker;
     private FusedLocationProviderClient fusedLocationClient;
-    private static final int GPS_REQUEST_CODE = 1001;
-    private static final int LOCATION_REQUEST_CODE = 44;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,37 +76,6 @@ public class AvailabilityActivity extends AppCompatActivity {
         findViewById(R.id.back_btn).setOnClickListener(v -> AvailabilityActivity.super.onBackPressed());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(locationRequest);
-        builder.setAlwaysShow(true);
-
-        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext())
-                .checkLocationSettings(builder.build());
-
-        result.addOnCompleteListener(task -> {
-            try {
-                //Below unassigned variable needed
-                LocationSettingsResponse response = task.getResult(ApiException.class);
-                locationRequest();
-            } catch (ApiException e) {
-                switch (e.getStatusCode()) {
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        try {
-                            ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                            resolvableApiException.startResolutionForResult(AvailabilityActivity.this, GPS_REQUEST_CODE);
-                        } catch (IntentSender.SendIntentException sendIntentException) {
-                            sendIntentException.printStackTrace();
-                        }
-                        break;
-
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        break;
-                }
-            }
-        });
 
         if (Provider.getInstance().isAlways_available()) {
             edit_distance_radius.setText("");
@@ -120,7 +91,6 @@ public class AvailabilityActivity extends AppCompatActivity {
                 } else if (!(isTimeFromSet() && isTimeToSet())) {
                     Toast.makeText(this, "You have not set your Times", Toast.LENGTH_SHORT).show();
                 } else {
-                    locationRequest();
                     saveData();
                 }
 
@@ -166,24 +136,6 @@ public class AvailabilityActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GPS_REQUEST_CODE) {
-            switch (resultCode) {
-                case AvailabilityActivity.RESULT_OK:
-                    Toast.makeText(this, "GPS turned on successfully", Toast.LENGTH_SHORT).show();
-                    break;
-                case AvailabilityActivity.RESULT_CANCELED:
-                    Toast.makeText(this, "Location permission needed", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + requestCode);
-            }
-        }
-
-    }
-
     private void saveData() {
         if (checkbox_available_countrywide.isChecked()) {
             Provider.getInstance().setAvailable_country_wide(true);
@@ -223,11 +175,74 @@ public class AvailabilityActivity extends AppCompatActivity {
         return true;
     }
 
-    public void locationRequest() {
-        if (ActivityCompat.checkSelfPermission(AvailabilityActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            getLocation();
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.title_location_permission)
+                        .setMessage(R.string.text_location_permission)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
         } else {
-            ActivityCompat.requestPermissions(AvailabilityActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        //Request location updates:
+                        locationManager.requestLocationUpdates(provider, 400, 1, this);
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
+            }
+
         }
     }
 

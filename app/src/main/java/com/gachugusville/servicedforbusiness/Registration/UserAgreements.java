@@ -37,7 +37,6 @@ public class UserAgreements extends AppCompatActivity {
         finish_registration.setOnClickListener(v -> {
 
             if (isNetworkAvailable()) {
-
                 uploadData();
             } else {
                 Alerter.create(this)
@@ -51,7 +50,6 @@ public class UserAgreements extends AppCompatActivity {
     }
 
     private void uploadData() {
-
         providersDatabase.collection("Providers")
                 .document(userID)
                 .set(Provider.getInstance())

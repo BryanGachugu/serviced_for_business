@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/gradient_blue_bg"
     android:layout_height="match_parent"
     tools:context="com.gachugusville.servicedforbusiness.Genesis.StartActivity">
 
@@ -12,10 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/crimson_text"
         android:text="@string/welcome_to_serviced_for_business"
         android:textAlignment="center"
-        android:textColor="@color/light_blue"
+        android:textColor="@color/white"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@id/lottieAnimationView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/crimson_text"
+        android:backgroundTint="@android:color/transparent"
         android:text="Offer What you are good at \n  to those around you"
         android:textAlignment="center"
         android:textColor="@color/black"
