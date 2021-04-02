@@ -31,8 +31,10 @@
         <activity android:name="com.gachugusville.servicedforbusiness.Registration.NamesActivity" />
         <activity android:name="com.gachugusville.servicedforbusiness.Registration.SignUp" />
         <activity android:name="com.gachugusville.servicedforbusiness.Genesis.StartActivity" />
-        <activity android:name="com.gachugusville.servicedforbusiness.Genesis.SplashScreen">
-            <intent-filter android:theme="@style/SplashScreenTheme">
+        <activity
+            android:name="com.gachugusville.servicedforbusiness.Genesis.SplashScreen"
+            android:theme="@style/SplashScreenTheme">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -43,7 +45,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <meta-data
