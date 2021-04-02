@@ -30,14 +30,13 @@ public class Provider {
     float rating = 0f;
     int time_available_from = 0, time_available_to = 0;
     int reach_in_distance = 0;
-    int number_of_ratings = 0;
     int jobs_done = 0, account_views = 0, number_of_reviews = 0, number_of_profile_likes = 0;
     double estimated_earnings = 0, latitude = 0, longitude = 0;
 
     private Provider(String user_name, String brand_name, String service_category, String service_identity, String personal_description,
                      String short_note_to_users, String phone, double latitude, double longitude, String profile_pic_url, String ref_url1, String ref_url2, String email, String country, List<Reviews> reviews, List<String> provider_skills,
                      List<MaterialDayPicker.Weekday> days_available, boolean available_country_wide,
-                     boolean always_available, boolean isGoogleAuth, boolean isRegistrationFinished, int total_rating, float rating, int time_available_from, int time_available_to, int reach_in_distance, int number_of_ratings,
+                     boolean always_available, boolean isGoogleAuth, boolean isRegistrationFinished, int total_rating, float rating, int time_available_from, int time_available_to, int reach_in_distance,
                      int jobs_done, int account_views, int number_of_reviews, int number_of_profile_likes, double estimated_earnings) {
         this.user_name = user_name;
         this.brand_name = brand_name;
@@ -65,7 +64,6 @@ public class Provider {
         this.time_available_from = time_available_from;
         this.time_available_to = time_available_to;
         this.reach_in_distance = reach_in_distance;
-        this.number_of_ratings = number_of_ratings;
         this.jobs_done = jobs_done;
         this.account_views = account_views;
         this.number_of_reviews = number_of_reviews;
