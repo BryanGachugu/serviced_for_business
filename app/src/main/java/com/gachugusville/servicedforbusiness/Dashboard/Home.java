@@ -18,6 +18,7 @@ import com.gachugusville.servicedforbusiness.Registration.NamesActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -63,10 +64,6 @@ public class Home extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         getUserInfo();
-
-        if (Provider.getInstance().isRegistrationFinished()) {
-            card_registration_incomplete.setVisibility(View.GONE);
-        }else card_registration_incomplete.setVisibility(View.VISIBLE);
 
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
@@ -138,5 +135,11 @@ public class Home extends Fragment {
         });
     }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Provider.getInstance().isRegistrationFinished()) {
+            card_registration_incomplete.setVisibility(View.GONE);
+        }else card_registration_incomplete.setVisibility(View.VISIBLE);
+    }
 }

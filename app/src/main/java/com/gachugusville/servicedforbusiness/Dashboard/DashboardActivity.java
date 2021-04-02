@@ -32,6 +32,7 @@ import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
 import com.google.android.play.core.review.testing.FakeReviewManager;
 import com.google.android.play.core.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -66,6 +67,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         getWindow().setStatusBarColor(getResources().getColor(R.color.white));
         getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
         setContentView(R.layout.activity_dashboard);
+        FirebaseApp.initializeApp(this);
 
         drawer_layout = findViewById(R.id.drawer_layout);
         navigation_view = findViewById(R.id.navigation_view);
@@ -141,8 +143,8 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-                    Provider.getInstance().setUser_name(documentSnapshot.toObject(Provider.getInstance().getClass()).getUser_name());
-                    Provider.getInstance().setRegistrationFinished(documentSnapshot.toObject(Provider.getInstance().getClass()).isRegistrationFinished());
+                    Provider.getInstance().setUser_name(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getUser_name());
+                    Provider.getInstance().setRegistrationFinished(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).isRegistrationFinished());
                     Log.d("Fuck", String.valueOf(Provider.getInstance().isRegistrationFinished()));
                 }
             }
@@ -260,18 +262,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                     break;
                 case R.id.rate_nav:
                     drawer_layout.closeDrawer(GravityCompat.START);
-                    manager = new FakeReviewManager(this);
-                    Task<ReviewInfo> request = manager.requestReviewFlow();
-                    request.addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            reviewInfo = task.getResult();
-                            Task<Void> flow = manager.launchReviewFlow(DashboardActivity.this, reviewInfo);
-                            flow.addOnSuccessListener(result -> findViewById(R.id.rate_nav).setVisibility(View.GONE)).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "An internal error occured", Toast.LENGTH_SHORT).show());
-                        } else {
-                            Toast.makeText(DashboardActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "Failed", Toast.LENGTH_SHORT).show());
-                    // rateApp(); //TODO delete fake review line and enable this one
+                    rateApp();
                     break;
                 case R.id.contact_dev_nav:
                     sendEmailToDev();
