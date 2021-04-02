@@ -49,10 +49,9 @@ public class NamesActivity extends AppCompatActivity {
 
         if (Provider.getInstance().isGoogleAuth()) {
             assert auth != null;
-            Provider.getInstance().setPhone(auth.getPhoneNumber());
             Provider.getInstance().setEmail(auth.getEmail());
-            String photo_url = Objects.requireNonNull(auth.getPhotoUrl()).toString();
-            Provider.getInstance().setProfile_pic_url(photo_url);
+            Provider.getInstance().setProfile_pic_url(auth.getPhotoUrl().toString());
+            Provider.getInstance().setPhone(auth.getPhoneNumber());
             edt_user_name.setText(auth.getDisplayName());
         }
 

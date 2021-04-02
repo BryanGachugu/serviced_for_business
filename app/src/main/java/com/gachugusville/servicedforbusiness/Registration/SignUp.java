@@ -162,12 +162,8 @@ public class SignUp extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                            startActivity(new Intent(SignUp.this, DashboardActivity.class));
-                        }
-                        startActivity(new Intent(SignUp.this, NamesActivity.class));
-                        Provider.getInstance().setPhone(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
                         Provider.getInstance().setGoogleAuth(true);
+                        startActivity(new Intent(SignUp.this, NamesActivity.class));
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("GoogleSignIn", "signInWithCredential:failure", task.getException());
