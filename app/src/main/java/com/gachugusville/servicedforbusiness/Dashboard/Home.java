@@ -24,6 +24,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,8 +71,8 @@ public class Home extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         getUserInfo();
-
-        Log.d("FUUUUUUUUCKD", String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals("google.com")));
+        String id = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(0).getProviderId();
+        Log.d("UserProviderId",  id);
         card_registration_incomplete.setOnClickListener(v -> startActivity(new Intent(getContext(), NamesActivity.class)));
 
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
