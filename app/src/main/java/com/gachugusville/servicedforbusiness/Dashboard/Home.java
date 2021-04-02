@@ -67,6 +67,8 @@ public class Home extends Fragment {
 
         card_registration_incomplete.setOnClickListener(v -> startActivity(new Intent(getContext(), NamesActivity.class)));
 
+        
+
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
         } else if (FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals("google.com")) {
