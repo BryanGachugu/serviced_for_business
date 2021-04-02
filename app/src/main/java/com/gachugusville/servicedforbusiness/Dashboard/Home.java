@@ -65,6 +65,8 @@ public class Home extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         getUserInfo();
 
+        card_registration_incomplete.setOnClickListener(v -> startActivity(new Intent(getContext(), NamesActivity.class)));
+
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
         } else if (Provider.getInstance().isGoogleAuth()) {
@@ -140,6 +142,8 @@ public class Home extends Fragment {
         super.onStart();
         if (Provider.getInstance().isRegistrationFinished()) {
             card_registration_incomplete.setVisibility(View.GONE);
-        }else card_registration_incomplete.setVisibility(View.VISIBLE);
+        }else {
+            card_registration_incomplete.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -20,7 +20,6 @@ import java.util.Objects;
 public class SplashScreen extends AppCompatActivity {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private  String Uid;
     private DocumentReference docRef;
 
     @Override
@@ -29,8 +28,8 @@ public class SplashScreen extends AppCompatActivity {
         setTheme(R.style.SplashScreenTheme);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-           Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-           docRef = db.collection("Providers").document(Uid);
+            String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+           docRef = db.collection("Providers").document(uid);
             getAllDataFromDatabase();
         } else
             startActivity(new Intent(this, StartActivity.class));
@@ -70,12 +69,13 @@ public class SplashScreen extends AppCompatActivity {
                 Provider.getInstance().setEstimated_earnings(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getEstimated_earnings());
                 Provider.getInstance().setLatitude(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getLatitude());
                 Provider.getInstance().setLatitude(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getLongitude());
-                startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
             }
+            startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("Failure", e.getLocalizedMessage());
+                startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
             }
         });
     }
