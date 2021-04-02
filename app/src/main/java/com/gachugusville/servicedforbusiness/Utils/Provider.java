@@ -248,9 +248,8 @@ public class Provider {
     }
 
     public float getRating() {
-        if (getNumber_of_reviews() == 0){
-            rating = 0;
-        }
+        if (getNumber_of_reviews() < 0)
+            setNumber_of_reviews(0);
         return (float) getTotal_rating() / getNumber_of_reviews();
     }
 

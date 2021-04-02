@@ -25,7 +25,7 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.SplashScreenTheme);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.light_blue));
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
