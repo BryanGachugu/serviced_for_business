@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class NamesActivity extends AppCompatActivity {
     private ChipGroup chip_group;
@@ -44,8 +45,7 @@ public class NamesActivity extends AppCompatActivity {
         FirebaseUser auth = FirebaseAuth.getInstance().getCurrentUser();
 
         retailer_signUp_back_btn.setOnClickListener(v -> startActivity(new Intent(this, StartActivity.class)));
-        boolean isGoogleAuth = getPreferences(MODE_PRIVATE).getBoolean("isGoogleAuth", false);
-        if (isGoogleAuth) {
+        if (FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals(GoogleAuthProvider.PROVIDER_ID)) {
             assert auth != null;
             Provider.getInstance().setEmail(auth.getEmail());
             Provider.getInstance().setProfile_pic_url(auth.getPhotoUrl().toString());
