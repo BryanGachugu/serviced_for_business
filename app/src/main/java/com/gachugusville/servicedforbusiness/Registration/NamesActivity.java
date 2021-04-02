@@ -47,13 +47,14 @@ public class NamesActivity extends AppCompatActivity {
 
         retailer_signUp_back_btn.setOnClickListener(v -> startActivity(new Intent(this, StartActivity.class)));
 
-        if (Provider.getInstance().isGoogleAuth()) {
+        if (FirebaseAuth.getInstance().getCurrentUser().getProviderId().equals("")) {
             assert auth != null;
             Provider.getInstance().setEmail(auth.getEmail());
             Provider.getInstance().setProfile_pic_url(auth.getPhotoUrl().toString());
             Provider.getInstance().setPhone(auth.getPhoneNumber());
             edt_user_name.setText(auth.getDisplayName());
         }
+
 
         chip_group.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.chip_individual) {
