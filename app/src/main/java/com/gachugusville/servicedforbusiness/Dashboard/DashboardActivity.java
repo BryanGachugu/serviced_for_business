@@ -20,7 +20,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import com.gachugusville.development.servicedforbusiness.BuildConfig;
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
@@ -42,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+
+import io.grpc.android.BuildConfig;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -140,8 +141,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-                    Provider.getInstance().setRegistrationFinished(documentSnapshot.getBoolean("registrationFinished"));
-                    Log.d("douiahp", String.valueOf(Provider.getInstance().isRegistrationFinished()));
+                    Provider provider = Provider.getInstance();
+                    documentSnapshot.toObject(provider.getClass());
+                    Log.d("douiahp", String.valueOf(provider.isRegistrationFinished()));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -259,6 +261,16 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 case R.id.rate_nav:
                     drawer_layout.closeDrawer(GravityCompat.START);
                     manager = new FakeReviewManager(this);
+                    Task<ReviewInfo> request = manager.requestReviewFlow();
+                    request.addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            reviewInfo = task.getResult();
+                            Task<Void> flow = manager.launchReviewFlow(DashboardActivity.this, reviewInfo);
+                            flow.addOnSuccessListener(result -> findViewById(R.id.rate_nav).setVisibility(View.GONE)).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "An internal error occured", Toast.LENGTH_SHORT).show());
+                        } else {
+                            Toast.makeText(DashboardActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(e -> Toast.makeText(DashboardActivity.this, "Failed", Toast.LENGTH_SHORT).show());
                     // rateApp(); //TODO delete fake review line and enable this one
                     break;
                 case R.id.contact_dev_nav:
