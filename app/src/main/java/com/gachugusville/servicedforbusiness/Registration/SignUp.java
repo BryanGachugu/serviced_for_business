@@ -173,10 +173,9 @@ public class SignUp extends AppCompatActivity {
                                 startActivity(new Intent(SignUp.this, DashboardActivity.class));
                             } else {
                                 Provider.getInstance().setGoogleAuth(true);
-                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putBoolean("isGoogleAuth", Provider.getInstance().isAlways_available());
-                                editor.apply();
+                                SharedPreferences sharedPreferences = getSharedPreferences("SERVICED_PREFS", SignUp.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("isGoogleAuth", true).apply();
                                 startActivity(new Intent(SignUp.this, NamesActivity.class));
                                 Provider.getInstance().setPhone(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
                             }

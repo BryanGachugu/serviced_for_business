@@ -44,8 +44,8 @@ public class NamesActivity extends AppCompatActivity {
         FirebaseUser auth = FirebaseAuth.getInstance().getCurrentUser();
 
         retailer_signUp_back_btn.setOnClickListener(v -> startActivity(new Intent(this, StartActivity.class)));
-
-        if (Provider.getInstance().isGoogleAuth() {
+        boolean isGoogleAuth = getPreferences(MODE_PRIVATE).getBoolean("isGoogleAuth", false);
+        if (isGoogleAuth) {
             assert auth != null;
             Provider.getInstance().setEmail(auth.getEmail());
             Provider.getInstance().setProfile_pic_url(auth.getPhotoUrl().toString());

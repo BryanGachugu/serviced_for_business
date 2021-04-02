@@ -71,7 +71,6 @@ public class Home extends Fragment {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         boolean isGoogleAuth = preferences.getBoolean("isGoogleAuth", false);
-
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
         } else if (isGoogleAuth) {
