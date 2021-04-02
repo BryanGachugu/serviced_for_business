@@ -16,6 +16,7 @@
             android:id="@+id/card_registration_incomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:backgroundTint="@android:color/transparent"
             android:elevation="10dp"
             app:cardCornerRadius="20dp">

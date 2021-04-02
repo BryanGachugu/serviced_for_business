@@ -141,11 +141,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-                    Provider provider = Provider.getInstance();
-                    documentSnapshot.toObject(provider.getClass());
-                    String name = Provider.getInstance().getUser_name();
-                    System.out.println("User_name = " + name);
-
+                    Provider.getInstance().setUser_name(documentSnapshot.toObject(Provider.getInstance().getClass()).getUser_name());
+                    Provider.getInstance().setRegistrationFinished(documentSnapshot.toObject(Provider.getInstance().getClass()).isRegistrationFinished());
+                    Log.d("Fuck", String.valueOf(Provider.getInstance().isRegistrationFinished()));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
