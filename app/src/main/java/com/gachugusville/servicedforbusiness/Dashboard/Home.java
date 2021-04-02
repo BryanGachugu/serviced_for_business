@@ -28,6 +28,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.majorik.sparklinelibrary.SparkLineLayout;
 import com.squareup.picasso.Picasso;
 
@@ -68,12 +71,10 @@ public class Home extends Fragment {
         getUserInfo();
 
         card_registration_incomplete.setOnClickListener(v -> startActivity(new Intent(getContext(), NamesActivity.class)));
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        boolean isGoogleAuth = preferences.getBoolean("isGoogleAuth", false);
+        String Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
             Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
-        } else if (isGoogleAuth) {
+        } else if (Provider.getInstance().isGoogleAuth()) {
             assert user != null;
             String photo_url = Provider.getInstance().getProfile_pic_url();
             Picasso.get()
