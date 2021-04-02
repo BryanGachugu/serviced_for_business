@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import per.wsj.library.AndRatingBar;
 
 public class Home extends Fragment {
     private FirebaseAuth mAuth;
@@ -54,7 +54,7 @@ public class Home extends Fragment {
         TextView number_of_views = view.findViewById(R.id.number_of_views);
         TextView estimated_earnings = view.findViewById(R.id.estimated_earnings);
         SparkLineLayout line_graph = view.findViewById(R.id.line_graph);
-        AndRatingBar rating_bar = view.findViewById(R.id.rating_bar);
+        RatingBar rating_bar_home = view.findViewById(R.id.rating_bar_home);
         TextView average_rating = view.findViewById(R.id.average_rating);
         TextView number_of_jobs = view.findViewById(R.id.number_of_jobs);
         card_registration_incomplete = view.findViewById(R.id.card_registration_incomplete);
@@ -88,9 +88,12 @@ public class Home extends Fragment {
             if (Provider.getInstance().getNumber_of_reviews() == 0) {
                 average_rating.setText(String.valueOf(0));
                 Provider.getInstance().setRating(0f);
+                rating_bar_home.setRating(0f);
             } else {
-                average_rating.setText(String.valueOf(Provider.getInstance().getRating()));
-                rating_bar.setRating(Provider.getInstance().getRating());
+                float average_rating_value = (float) Provider.getInstance().getTotal_rating() / Provider.getInstance().getNumber_of_reviews();
+                Provider.getInstance().setRating(average_rating_value);
+                average_rating.setText(String.valueOf(average_rating_value));
+                rating_bar_home.setRating(average_rating_value);
             }
         } catch (Exception e) {
             Log.d("RatingError", e.getMessage());
