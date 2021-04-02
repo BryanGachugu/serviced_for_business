@@ -29,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-           docRef = db.collection("Providers").document(uid);
+            docRef = db.collection("Providers").document(uid);
             getAllDataFromDatabase();
         } else
             startActivity(new Intent(this, StartActivity.class));
