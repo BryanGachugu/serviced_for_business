@@ -72,9 +72,6 @@ public class StartActivity extends AppCompatActivity {
             }
         });
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            startActivity(new Intent(this, DashboardActivity.class));
-        }
         btn_signUp.setOnClickListener(v -> nextActivity());
         findViewById(R.id.btn_logIn).setOnClickListener(v -> startActivity(new Intent(this, LogInActivity.class)));
 

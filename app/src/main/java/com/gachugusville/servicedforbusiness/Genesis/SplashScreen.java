@@ -29,8 +29,12 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.SplashScreenTheme);
-       startActivity(new Intent(this, StartActivity.class));
-       finish();
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            getAllDataFromDatabase();
+            Log.d("Fuck", Provider.getInstance().getRef_url1());
+        } else
+            startActivity(new Intent(this, StartActivity.class));
     }
 
     private void getAllDataFromDatabase() {
@@ -38,9 +42,11 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onSuccess(@NonNull DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
+                    documentSnapshot.toObject(Provider.getInstance().getClass());
                     Provider.getInstance().setUser_name(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getUser_name());
                     Provider.getInstance().setRegistrationFinished(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).isRegistrationFinished());
-                    Log.d("Fuck", String.valueOf(Provider.getInstance().isRegistrationFinished()));
+                    Provider.getInstance().setBrand_name(Objects.requireNonNull(documentSnapshot.toObject(Provider.getInstance().getClass())).getBrand_name());
+                    startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
