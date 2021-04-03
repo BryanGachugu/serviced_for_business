@@ -37,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Home extends Fragment {
     private FirebaseAuth mAuth;
-    private final boolean isGoogleAuth = FirebaseAuth.getInstance().getCurrentUser().getProviderData().get(1).getProviderId().equals(GoogleAuthProvider.PROVIDER_ID);
+    private final boolean isGoogleAuth = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getProviderData().get(1).getProviderId().equals(GoogleAuthProvider.PROVIDER_ID);
     private DatabaseReference databaseReference;
     private MaterialCardView card_registration_incomplete;
 
