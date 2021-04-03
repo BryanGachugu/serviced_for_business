@@ -314,7 +314,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/light_blue"
+            android:backgroundTint="#DDE1E3"
             app:cardCornerRadius="30dp">
 
             <LinearLayout
@@ -357,19 +357,20 @@
                     android:textColor="@color/black"
                     android:textSize="22sp" />
 
+                <com.majorik.sparklinelibrary.SparkLineLayout
+                    android:id="@+id/line_graph"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:backgroundTint="@android:color/transparent"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="30dp"
+                    app:s_line_color="@color/red"
+                    app:s_line_second_color="@color/orange"
+                    app:s_line_thickness="3dp" />
+
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
-        <com.majorik.sparklinelibrary.SparkLineLayout
-            android:id="@+id/line_graph"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
-            android:layout_marginBottom="30dp"
-            app:s_line_color="@color/red"
-            app:s_line_second_color="@color/light_blue"
-            app:s_line_thickness="3dp" />
 
     </LinearLayout>
 
