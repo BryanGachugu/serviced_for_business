@@ -12,5 +12,5 @@ public abstract class ApiService {
     })
 
     @POST("fcm/send")
-    abstract Call<Response> sendNotification(@Body Sender body);
+    public abstract Call<Response> sendNotification(@Body Sender body);
 }

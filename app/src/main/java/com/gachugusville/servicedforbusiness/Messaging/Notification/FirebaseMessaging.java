@@ -13,6 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.gachugusville.servicedforbusiness.Messaging.Containers.ConversationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -20,23 +21,23 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class FirebaseMessaging extends FirebaseMessagingService {
     String Uid;
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null){
+        if (currentUser != null) {
             Uid = currentUser.getUid();
         }
 
         String sent = remoteMessage.getData().get("sent");
         String user = remoteMessage.getData().get("user");
 
-        if (currentUser != null &&  sent.equals(currentUser.getUid())){
-            if (!currentUser.getUid().equals(user)){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (currentUser != null && sent.equals(currentUser.getUid())) {
+            if (!currentUser.getUid().equals(user)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     sendOAndAboveNotification(remoteMessage);
-                }
-                else sendNormalNotification(remoteMessage);
+                } else sendNormalNotification(remoteMessage);
             }
         }
     }
@@ -49,7 +50,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         int i = Integer.parseInt(user.replaceAll("[\\D]", ""));
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, ConversationActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("user_id", user);
         intent.putExtras(bundle);
@@ -66,7 +67,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int j = 0;
-        if (i > 0){
+        if (i > 0) {
             j = i;
         }
         notificationManager.notify(j, builder.build());
@@ -80,7 +81,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         int i = Integer.parseInt(user.replaceAll("[\\D]", ""));
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, ConversationActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("user_id", user);
         intent.putExtras(bundle);
@@ -92,7 +93,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         Notification.Builder builder = notification1.getNotifications(title, body, pendingIntent, defSoundUri, icon);
 
         int j = 0;
-        if (i > 0){
+        if (i > 0) {
             j = i;
         }
         notification1.getManager().notify(j, builder.build());

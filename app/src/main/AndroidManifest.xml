@@ -53,6 +53,8 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service android:name="com.gachugusville.servicedforbusiness.Messaging.Notification.FirebaseMessaging" />
     </application>
 
 </manifest>
