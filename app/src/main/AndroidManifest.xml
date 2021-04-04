@@ -16,6 +16,7 @@
         android:roundIcon="@drawable/test"
         android:supportsRtl="true"
         android:theme="@style/Theme.ServicedForBusiness">
+        <activity android:name="com.gachugusville.servicedforbusiness.Messaging.Containers.ChatActivity"></activity>
         <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.EditProfileActivity" />
         <activity android:name="com.gachugusville.servicedforbusiness.Registration.ResetPasswordActivity" />
         <activity android:name="com.gachugusville.servicedforbusiness.Registration.LogInActivity" />
@@ -44,11 +45,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
