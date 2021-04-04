@@ -48,6 +48,7 @@ public class EditProfileActivity extends AppCompatActivity {
         MaterialButton btn_change_profile = findViewById(R.id.btn_change_profile);
         MaterialButton btn_save_profile = findViewById(R.id.btn_save_profile);
         profile_image = findViewById(R.id.profile_image);
+        findViewById(R.id.dp_back_btn).setOnClickListener(v -> EditProfileActivity.super.onBackPressed());
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
