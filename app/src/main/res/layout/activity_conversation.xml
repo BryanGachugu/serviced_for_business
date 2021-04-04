@@ -14,12 +14,82 @@
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
             android:id="@+id/profile_iv_conversations"
-            android:scaleType="centerCrop"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@android:color/transparent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_customer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/crimson_text"
+                android:text="Bryan Gachugu"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_online_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/crimson_text"
+                android:text="Online"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messages_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/linear_layout_chat_Send"
+        android:layout_below="@id/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_chat_Send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="2dp"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_input_msg"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_white_edit_text"
+            android:inputType="textCapSentences"
+            android:hint="@string/start_typing"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_send_msg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/send_icon"
+            android:backgroundTint="@android:color/transparent"
+            android:tint="@color/light_blue"/>
+
+    </LinearLayout>
 
 
 </RelativeLayout>

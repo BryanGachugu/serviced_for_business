@@ -95,4 +95,5 @@
     <string name="text_location_permission">Serviced for business needs to access your location to link you with the closest service seekers</string>
     <string name="ok">Ok</string>
     <string name="change_profile_picture">Change Profile Picture</string>
+    <string name="start_typing">Start typing..</string>
 </resources>

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Messaging.Containers.ChatActivity;
+import com.gachugusville.servicedforbusiness.Messaging.Containers.ConversationActivity;
 import com.gachugusville.servicedforbusiness.Messaging.Containers.MessagesActivity;
 import com.gachugusville.servicedforbusiness.Utils.ChatModel;
 import com.squareup.picasso.Picasso;
@@ -42,9 +43,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Messag
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         Picasso.get().load(chats.get(0).getCustomer_url()).into(holder.sender_DP);
         holder.sender_name.setText(chats.get(0).getName());
+        holder.Uid = chats.get(position).getUid();
         holder.sender_distance.setText(String.format("%sAway", chats.get(0).getDistance()));
         holder.chat_layout.setOnClickListener(v -> {
-            context.startActivity(new Intent(context, MessagesActivity.class));
+            Intent intent = new Intent(context, ConversationActivity.class);
+            intent.putExtra("Uid", holder.Uid);
+            context.startActivity(intent);
         });
 
 
@@ -59,6 +63,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Messag
 
         LinearLayout chat_layout;
         CircleImageView sender_DP;
+        String Uid;
         TextView sender_name, sender_distance;
 
         public MessageHolder(@NonNull View itemView) {
