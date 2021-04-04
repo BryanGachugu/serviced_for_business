@@ -4,21 +4,31 @@ package com.gachugusville.servicedforbusiness.Messaging.Containers;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.development.servicedforbusiness.databinding.ActivityChannelBinding;
+import com.gachugusville.servicedforbusiness.Utils.ImgurAttachmentViewFactory;
 import com.getstream.sdk.chat.viewmodel.MessageInputViewModel;
 import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel;
 import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel.Mode.Normal;
 import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel.Mode.Thread;
 import com.getstream.sdk.chat.viewmodel.messages.MessageListViewModel.State.NavigateUp;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import io.getstream.chat.android.client.models.Channel;
 import io.getstream.chat.android.client.models.Message;
+import io.getstream.chat.android.client.models.User;
+import io.getstream.chat.android.livedata.ChatDomain;
+import io.getstream.chat.android.livedata.controller.ChannelController;
 import io.getstream.chat.android.ui.message.input.viewmodel.MessageInputViewModelBinding;
 import io.getstream.chat.android.ui.message.list.header.MessageListHeaderView;
 import io.getstream.chat.android.ui.message.list.header.viewmodel.MessageListHeaderViewModel;
@@ -56,7 +66,7 @@ public class ChannelActivity extends AppCompatActivity {
         MessageListViewModel messageListViewModel = provider.get(MessageListViewModel.class);
         MessageInputViewModel messageInputViewModel = provider.get(MessageInputViewModel.class);
 
-        // TODO set custom Imgur attachment factory
+        binding.messageListView.setAttachmentViewFactory(new ImgurAttachmentViewFactory());
 
         // Step 2 - Bind the view and ViewModels, they are loosely coupled so it's easy to customize
         MessageListHeaderViewModelBinding.bind(messageListHeaderViewModel, binding.messageListHeaderView, this);
@@ -91,6 +101,34 @@ public class ChannelActivity extends AppCompatActivity {
         MessageListHeaderView.OnClickListener backHandler = () -> {
             messageListViewModel.onEvent(MessageListViewModel.Event.BackButtonPressed.INSTANCE);
         };
+
+        // Custom typing info header bar
+        TextView typingHeaderView = findViewById(R.id.typingHeaderView);
+        String nobodyTyping = "nobody is typing";
+        typingHeaderView.setText(nobodyTyping);
+
+// Obtain a ChannelController
+        ChatDomain.instance()
+                .getUseCases()
+                .getGetChannelController()
+                .invoke(cid)
+                .enqueue((result) -> {
+                    ChannelController channelController = result.data();
+
+                    // Observe typing users
+                    channelController.getTyping().observe(this, typingState -> {
+                        if (typingState.getUsers().isEmpty()) {
+                            typingHeaderView.setText(nobodyTyping);
+                        } else {
+                            List<String> userNames = new LinkedList<>();
+                            for (User user : typingState.getUsers()) {
+                                userNames.add((String) user.getExtraData().get("name"));
+                            }
+                            String typing = "typing: " + TextUtils.join(", ", userNames);
+                            typingHeaderView.setText(typing);
+                        }
+                    });
+                });
 
         binding.messageListHeaderView.setBackButtonClickListener(backHandler);
 

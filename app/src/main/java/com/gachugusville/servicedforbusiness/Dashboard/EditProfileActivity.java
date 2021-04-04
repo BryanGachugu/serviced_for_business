@@ -7,7 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+imp
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
@@ -28,7 +28,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 
@@ -61,7 +60,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btn_save_profile.setOnClickListener(v -> uploadProfileImage());
         btn_change_profile.setOnClickListener(v -> {
             try {
-                CropImage.activity(imageURI).setAspectRatio(1, 1).start(this);
+
             } catch (Exception e) {
                 Log.d("ProfileChangeError", e.getMessage());
                 Toast.makeText(this, "Unexpected Error", Toast.LENGTH_SHORT).show();
@@ -134,15 +133,4 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            imageURI = result.getUri();
-            profile_image.setImageURI(imageURI);
-        } else {
-            Toast.makeText(this, "Error, Try again", Toast.LENGTH_SHORT).show();
-        }
-    }
 }

@@ -22,27 +22,18 @@ import androidx.fragment.app.Fragment;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Messaging.Containers.ChatActivity;
-import com.gachugusville.servicedforbusiness.Messaging.Notification.Token;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.github.mikephil.charting.data.Entry;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.review.testing.FakeReviewManager;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.installations.FirebaseInstallations;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,7 +69,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
-        updateToken(FirebaseInstallations.getInstance().getId().getResult());
         findViewById(R.id.btn_msg).setOnClickListener(v -> startActivity(new Intent(this, ChatActivity.class)));
 
         drawer_layout = findViewById(R.id.drawer_layout);
@@ -147,12 +137,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // lineDataSet.disableDashedLine();
         // lineDataSet.disableDashedHighlightLine();
 
-    }
-
-    private void updateToken(String token) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
-        Token mToken = new Token(token);
-        ref.child(Uid).setValue(mToken);
     }
 
     private void animateNavigationDrawer() {
