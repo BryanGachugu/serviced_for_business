@@ -1,6 +1,7 @@
 package com.gachugusville.servicedforbusiness.Messaging.Notification;
 
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Client {
 
@@ -12,5 +13,6 @@ public class Client {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
+        return retrofit;
     }
 }
