@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.gachugusville.development.servicedforbusiness.R;
+import com.gachugusville.servicedforbusiness.Messaging.Containers.ChatActivity;
 import com.gachugusville.servicedforbusiness.Messaging.Notification.Token;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
@@ -78,6 +79,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         }
 
         updateToken(FirebaseInstallations.getInstance().getId().getResult());
+        findViewById(R.id.btn_msg).setOnClickListener(v -> startActivity(new Intent(this, ChatActivity.class)));
 
         drawer_layout = findViewById(R.id.drawer_layout);
         navigation_view = findViewById(R.id.navigation_view);
@@ -291,7 +293,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         String[] CC = {"gitau.spice270@gmail.com"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("text/plain");
 
 
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
@@ -301,7 +302,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            Log.i("Finished sending email...", "");
+            Log.i("EmailSendDone", "");
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(DashboardActivity.this,
                     "There is no email client installed.", Toast.LENGTH_SHORT).show();

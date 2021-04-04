@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.gachugusville.development.servicedforbusiness.R;
-import com.gachugusville.servicedforbusiness.Utils.CategorySpinnerAdapter;
+import com.gachugusville.servicedforbusiness.Adapters.CategorySpinnerAdapter;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.gachugusville.servicedforbusiness.Utils.ServiceCategoryList;
 import com.google.firebase.firestore.DocumentChange;

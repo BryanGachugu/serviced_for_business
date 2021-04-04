@@ -1,4 +1,4 @@
-package com.gachugusville.servicedforbusiness.Utils;
+package com.gachugusville.servicedforbusiness.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Registration.TagsActivity;
+import com.gachugusville.servicedforbusiness.Utils.Provider;
+import com.gachugusville.servicedforbusiness.Utils.ServiceCategoryList;
 import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 
