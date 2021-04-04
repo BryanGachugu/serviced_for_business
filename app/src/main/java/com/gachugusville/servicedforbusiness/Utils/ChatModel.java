@@ -1,15 +1,16 @@
 package com.gachugusville.servicedforbusiness.Utils;
 
 public class ChatModel {
-    String customer_url, customer_email, phone, Uid;
+    String customer_url, name, Uid;
+    float distance;
 
     public ChatModel() {
     }
 
-    public ChatModel(String customer_url, String customer_email, String phone, String uid) {
+    public ChatModel(String customer_url, String name, float distance, String uid) {
         this.customer_url = customer_url;
-        this.customer_email = customer_email;
-        this.phone = phone;
+        this.name = name;
+        this.distance = distance;
         Uid = uid;
     }
 
@@ -21,20 +22,20 @@ public class ChatModel {
         this.customer_url = customer_url;
     }
 
-    public String getCustomer_email() {
-        return customer_email;
+    public String getName() {
+        return name;
     }
 
-    public void setCustomer_email(String customer_email) {
-        this.customer_email = customer_email;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public float getDistance() {
+        return distance;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone(float distance) {
+        this.distance = distance;
     }
 
     public String getUid() {
