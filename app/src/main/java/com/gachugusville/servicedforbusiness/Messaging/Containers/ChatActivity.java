@@ -28,13 +28,16 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         dialogsList = findViewById(R.id.dialogsList);
 
-        DialogsListAdapter dialogsListAdapter = new DialogsListAdapter(dialogs, new ImageLoader() {
+        DialogsListAdapter<ChatDialog> dialogsListAdapter = new DialogsListAdapter<>(dialogs.size(), new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-
+                Picasso.get().load(url).into(imageView);
             }
-        })
+        });
+
         dialogsList.setAdapter(dialogsListAdapter);
+        dialogsListAdapter.setItems(dialogs);
+        dialogsListAdapter.
 
 
     }
