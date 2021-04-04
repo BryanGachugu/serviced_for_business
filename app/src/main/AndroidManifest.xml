@@ -16,7 +16,8 @@
         android:roundIcon="@drawable/test"
         android:supportsRtl="true"
         android:theme="@style/Theme.ServicedForBusiness">
-        <activity android:name="com.gachugusville.servicedforbusiness.Messaging.Containers.ConversationActivity"></activity>
+        <activity android:name="com.gachugusville.servicedforbusiness.Messaging.Containers.ChannelActivity"></activity>
+        <activity android:name="com.gachugusville.servicedforbusiness.Messaging.Containers.ConversationActivity" />
         <activity android:name="com.gachugusville.servicedforbusiness.Messaging.Containers.MessagesActivity" />
         <activity android:name="com.gachugusville.servicedforbusiness.Messaging.Containers.ChatActivity" />
         <activity android:name="com.gachugusville.servicedforbusiness.Dashboard.EditProfileActivity" />

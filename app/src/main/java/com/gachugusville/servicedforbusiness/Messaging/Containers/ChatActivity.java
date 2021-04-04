@@ -1,79 +1,76 @@
 package com.gachugusville.servicedforbusiness.Messaging.Containers;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.gachugusville.development.servicedforbusiness.R;
-import com.gachugusville.servicedforbusiness.Adapters.ChatListAdapter;
-import com.gachugusville.servicedforbusiness.Utils.ChatModel;
-import com.gachugusville.servicedforbusiness.Utils.ServiceCategoryList;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.gachugusville.development.servicedforbusiness.databinding.ActivityChatBinding;
+import com.getstream.sdk.chat.ChatUI;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.Collections;
+
+import io.getstream.chat.android.client.ChatClient;
+import io.getstream.chat.android.client.api.models.FilterObject;
+import io.getstream.chat.android.client.models.Filters;
+import io.getstream.chat.android.client.models.User;
+import io.getstream.chat.android.livedata.ChatDomain;
+import io.getstream.chat.android.ui.channel.list.viewmodel.ChannelListViewModel;
+import io.getstream.chat.android.ui.channel.list.viewmodel.ChannelListViewModelBinding;
+import io.getstream.chat.android.ui.channel.list.viewmodel.factory.ChannelListViewModelFactory;
 
 public class ChatActivity extends AppCompatActivity {
-
-    private RecyclerView chat_list_recycler_view;
-    private List<ChatModel> modelChats;
-    private ChatListAdapter chatListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        findViewById(R.id.chat_back_btn).setOnClickListener(v -> ChatActivity.super.onBackPressed());
-        chat_list_recycler_view = findViewById(R.id.chat_list_recycler_view);
-        adjustViews();
 
-        FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();
-        try {
-            mFirebaseFirestore.collection("Providers")
-                    .document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                    .collection("ChatModel")
-                    //TODO we got the ChatList collection, the documents will be the messages, and the document fields will be message values
-                    .addSnapshotListener((value, error) -> {
-                        if (error != null) {
-                            Log.d("Error", Objects.requireNonNull(error.getMessage()));
-                        }
-                        try {
-                            if (value != null) {
-                                for (DocumentChange documentChange : value.getDocumentChanges()) {
-                                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                                        final ChatModel chat = documentChange.getDocument().toObject(ChatModel.class);
-                                        modelChats.add(chat);
-                                        chatListAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            }
-                        } catch (NullPointerException e) {
-                            Log.d(e.getMessage(), e.getLocalizedMessage());
-                        }
-                    });
-        } catch (Exception e) {
-            Log.d("CategoriesError", e.getMessage());
-        }
+        // Step 0 - inflate binding
+        ActivityChatBinding binding = ActivityChatBinding
+                .inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // Step 1 - Set up the client for API calls, the domain for offline storage
+        //          and the UI components
+        ChatClient client = new ChatClient.Builder("b67pax5b2wdq", getApplicationContext()).build();
+        new ChatDomain.Builder(client, getApplicationContext()).build();
+        new ChatUI.Builder(getApplicationContext()).build();
+
+        // Step 2 - Authenticate and connect the user
+        User user = new User();
+        user.setId("tutorial-droid");
+        user.getExtraData().put("name", "Tutorial Droid");
+        user.getExtraData().put("image", "https://bit.ly/2TIt8NR");
+
+        client.connectUser(
+                user,
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZHJvaWQifQ.NhEr0hP9W9nwqV7ZkdShxvi02C5PR7SJE7Cs4y7kyqg"
+        ).enqueue();
+
+        // Step 3 - Set the channel list filter and order
+        // This can be read as requiring only channels whose "type" is "messaging" AND
+        // whose "members" include our "user.id"
+        FilterObject filter = Filters.and(
+                Filters.eq("type", "messaging"),
+                Filters.in("members", Collections.singletonList(user.getId()))
+        );
+
+        ChannelListViewModelFactory factory = new ChannelListViewModelFactory(
+                filter,
+                ChannelListViewModel.DEFAULT_SORT
+        );
+
+        ChannelListViewModel channelsViewModel =
+                new ViewModelProvider(this, factory).get(ChannelListViewModel.class);
+
+        // Step 4 - Connect the ChannelListViewModel to the ChannelListView, loose
+        //          coupling makes it easy to customize
+        ChannelListViewModelBinding.bind(channelsViewModel, binding.channelListView, this);
+        binding.channelListView.setChannelItemClickListener(channel -> {
+            // TODO - start channel activity
+        });
     }
 
-    private void adjustViews() {
-        modelChats = new ArrayList<>();
-        if (modelChats.isEmpty()){
-            //TODO display empty animation
-            Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show();
-            Log.d("EmptyCollection", "Good progress");
-        }else {
-            chatListAdapter = new ChatListAdapter(this, modelChats);
-            chat_list_recycler_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            chat_list_recycler_view.setHasFixedSize(true);
-            chat_list_recycler_view.setAdapter(chatListAdapter);
-        }
-    }
 }
