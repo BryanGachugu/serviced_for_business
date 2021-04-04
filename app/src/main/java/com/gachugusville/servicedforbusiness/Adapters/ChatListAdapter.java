@@ -47,7 +47,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Messag
         holder.sender_distance.setText(String.format("%sAway", chats.get(0).getDistance()));
         holder.chat_layout.setOnClickListener(v -> {
             Intent intent = new Intent(context, ConversationActivity.class);
-            intent.putExtra("Uid", holder.Uid);
+            intent.putExtra("customerUid", holder.Uid);
             context.startActivity(intent);
         });
 
