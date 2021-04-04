@@ -39,12 +39,6 @@ public class ChannelActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        binding.channelListView.setChannelItemClickListener(
-                channel -> startActivity(ChannelActivity.newIntent(this, channel))
-        );
-
-
         // Step 0 - inflate binding
         ActivityChannelBinding binding = ActivityChannelBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
