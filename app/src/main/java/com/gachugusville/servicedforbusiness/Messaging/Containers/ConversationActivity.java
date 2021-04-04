@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +21,14 @@ import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Messaging.Notification.ApiService;
 import com.gachugusville.servicedforbusiness.Messaging.Notification.Client;
 import com.gachugusville.servicedforbusiness.Utils.ChatModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 
@@ -103,9 +111,38 @@ public class ConversationActivity extends AppCompatActivity {
         // We go to the user collection
         // we go to the user we are texting
         //in his fields, there is
-        CollectionReference messageFields = FirebaseFirestore.getInstance().collection("Users").document(customerUid)
+        CollectionReference messages = FirebaseFirestore.getInstance().collection("Users").document(customerUid)
                 .collection("ChatModel").document(myUid).collection("messages");
         HashMap<String, Object> messageDetails = new HashMap<>();
-        messageDetails.put("")
+        messageDetails.put("sender", myUid);
+        messageDetails.put("receiver", customerUid);
+        messageDetails.put("message", message);
+        messageDetails.put("timestamp", timeStamp);
+        messageDetails.put("isSeen", false);
+
+        messages.add(messageDetails).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(@NonNull DocumentReference documentReference) {
+                //TODO message send success
+                edt_input_msg.setText("");
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //TODO message send failed
+                Toast.makeText(ConversationActivity.this, "failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        messages.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+               if (error != null){
+                   Log.d("listen:error", error.getLocalizedMessage());
+               }
+               
+            }
+        });
     }
 }
