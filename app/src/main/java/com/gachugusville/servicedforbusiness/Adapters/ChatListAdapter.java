@@ -16,6 +16,7 @@ import com.gachugusville.servicedforbusiness.Messaging.Containers.ChatActivity;
 import com.gachugusville.servicedforbusiness.Messaging.Containers.ConversationActivity;
 import com.gachugusville.servicedforbusiness.Messaging.Containers.MessagesActivity;
 import com.gachugusville.servicedforbusiness.Utils.ChatModel;
+import com.gachugusville.servicedforbusiness.Utils.Messaging.ChatDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -24,9 +25,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MessageHolder> {
     Context context;
-    List<ChatModel> chats;
+    List<ChatDialog> chats;
 
-    public ChatListAdapter(Context context, List<ChatModel> chats) {
+    public ChatListAdapter(Context context, List<ChatDialog> chats) {
         this.context = context;
         this.chats = chats;
     }
@@ -41,10 +42,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.Messag
 
     @Override
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
-        Picasso.get().load(chats.get(0).getCustomer_url()).into(holder.sender_DP);
-        holder.sender_name.setText(chats.get(0).getName());
-        holder.Uid = chats.get(position).getUid();
-        holder.sender_distance.setText(String.format("%sAway", chats.get(0).getDistance()));
+        Picasso.get().load(chats.get(0).getDialogPhoto()).into(holder.sender_DP);
+        holder.sender_name.setText(chats.get(0).getDialogName());
+        holder.Uid = chats.get(position).getId();
+
         holder.chat_layout.setOnClickListener(v -> {
             Intent intent = new Intent(context, ConversationActivity.class);
             intent.putExtra("customerUid", holder.Uid);
