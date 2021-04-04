@@ -337,4 +337,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }
