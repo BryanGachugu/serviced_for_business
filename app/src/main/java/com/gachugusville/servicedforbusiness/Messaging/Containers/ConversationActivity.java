@@ -102,8 +102,8 @@ public class ConversationActivity extends AppCompatActivity {
         // We go to the user collection
         // we go to the user we are texting
         //in his fields, there is
-        DocumentReference customerDocRef = FirebaseFirestore.getInstance().collection("Users").document(customerUid)
-                .collection("ChatModel").document(myUid);
+        DocumentReference messageFields = FirebaseFirestore.getInstance().collection("Users").document(customerUid)
+                .collection("ChatModel").document(myUid).collection("messages").document();
         HashMap<String, Object> messageDetails = new HashMap<>();
         messageDetails.put("")
     }
