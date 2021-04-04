@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.gachugusville.development.servicedforbusiness.R;
+import com.gachugusville.servicedforbusiness.Messaging.Notification.Token;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.github.mikephil.charting.data.Entry;
@@ -34,9 +35,13 @@ import com.google.android.play.core.review.testing.FakeReviewManager;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.installations.FirebaseInstallations;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,7 +59,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private ReviewManager manager;
     private ReviewInfo reviewInfo;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final String Uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+    private String Uid;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -67,6 +72,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
         setContentView(R.layout.activity_dashboard);
         FirebaseApp.initializeApp(this);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+
+        updateToken(FirebaseInstallations.getInstance().getId().getResult());
 
         drawer_layout = findViewById(R.id.drawer_layout);
         navigation_view = findViewById(R.id.navigation_view);
@@ -134,6 +145,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // lineDataSet.disableDashedLine();
         // lineDataSet.disableDashedHighlightLine();
 
+    }
+
+    private void updateToken(String token) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token mToken = new Token(token);
+        ref.child(Uid).setValue(mToken);
     }
 
     private void animateNavigationDrawer() {
