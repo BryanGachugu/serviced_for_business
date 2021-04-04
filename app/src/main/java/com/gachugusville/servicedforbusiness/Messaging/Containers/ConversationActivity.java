@@ -18,6 +18,7 @@ import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Messaging.Notification.ApiService;
 import com.gachugusville.servicedforbusiness.Messaging.Notification.Client;
 import com.gachugusville.servicedforbusiness.Utils.ChatModel;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -102,8 +103,8 @@ public class ConversationActivity extends AppCompatActivity {
         // We go to the user collection
         // we go to the user we are texting
         //in his fields, there is
-        DocumentReference messageFields = FirebaseFirestore.getInstance().collection("Users").document(customerUid)
-                .collection("ChatModel").document(myUid).collection("messages").document();
+        CollectionReference messageFields = FirebaseFirestore.getInstance().collection("Users").document(customerUid)
+                .collection("ChatModel").document(myUid).collection("messages");
         HashMap<String, Object> messageDetails = new HashMap<>();
         messageDetails.put("")
     }
