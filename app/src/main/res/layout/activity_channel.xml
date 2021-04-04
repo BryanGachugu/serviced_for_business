@@ -8,6 +8,7 @@
         android:id="@+id/messageListHeaderView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -16,9 +17,9 @@
         android:id="@+id/typingHeaderView"
         android:layout_width="0dp"
         android:layout_height="31dp"
-        android:background="#DDD"
+        android:background="@color/light_blue"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/messageListHeaderView" />
@@ -31,8 +32,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typingHeaderView"
-        app:streamUiMessageBackgroundColorMine="#70AF74"
-        app:streamUiMessageBackgroundColorTheirs="#FFFFFF"
+        app:streamUiMessageBackgroundColorMine="@color/light_blue"
+        app:streamUiMessageBackgroundColorTheirs="@color/orange"
         app:streamUiMessageTextColorMine="#FFFFFF"
         app:streamUiMessageTextColorTheirs="#000000" />
 
