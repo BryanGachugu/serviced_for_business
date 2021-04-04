@@ -94,4 +94,5 @@
     <string name="title_location_permission">Serviced Location access</string>
     <string name="text_location_permission">Serviced for business needs to access your location to link you with the closest service seekers</string>
     <string name="ok">Ok</string>
+    <string name="change_profile_picture">Change Profile Picture</string>
 </resources>

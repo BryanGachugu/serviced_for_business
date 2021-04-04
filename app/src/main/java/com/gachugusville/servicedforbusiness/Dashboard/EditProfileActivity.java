@@ -3,6 +3,7 @@ package com.gachugusville.servicedforbusiness.Dashboard;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Utils.Dialog;
+import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -57,7 +59,14 @@ public class EditProfileActivity extends AppCompatActivity {
         getUserInfo();
 
         btn_save_profile.setOnClickListener(v -> uploadProfileImage());
-        btn_change_profile.setOnClickListener(v -> CropImage.activity(imageURI).setAspectRatio(1, 1).start(this));
+        btn_change_profile.setOnClickListener(v -> {
+            try {
+                CropImage.activity(imageURI).setAspectRatio(1, 1).start(this);
+            } catch (Exception e) {
+                Log.d("ProfileChangeError", e.getMessage());
+                Toast.makeText(this, "Unexpected Error", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -70,7 +79,9 @@ public class EditProfileActivity extends AppCompatActivity {
                     if (snapshot.hasChild("image")) {
                         String image = snapshot.child("image").getValue().toString();
                         Picasso.get().load(image).into(profile_image);
-                    }
+                    } else if (!Provider.getInstance().getProfile_pic_url().isEmpty()) {
+                        Picasso.get().load(Provider.getInstance().getProfile_pic_url()).into(profile_image);
+                    } else Picasso.get().load(R.drawable.test).into(profile_image);
                 }
             }
 
