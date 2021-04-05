@@ -85,10 +85,10 @@ public class StartActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPS_REQUEST_CODE) {
             switch (resultCode) {
-                case AvailabilityActivity.RESULT_OK:
+                case StartActivity.RESULT_OK:
                     Toast.makeText(this, "GPS turned on successfully", Toast.LENGTH_SHORT).show();
                     break;
-                case AvailabilityActivity.RESULT_CANCELED:
+                case StartActivity.RESULT_CANCELED:
                     Toast.makeText(this, "Location permission needed", Toast.LENGTH_SHORT).show();
                     break;
                 default:
