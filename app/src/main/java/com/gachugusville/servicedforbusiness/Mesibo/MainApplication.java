@@ -38,7 +38,7 @@
  *
  */
 
-package org.mesibo.messenger;
+package com.gachugusville.servicedforbusiness.Mesibo;
 
 import android.app.Application;
 import android.content.Context;
@@ -62,7 +62,7 @@ public class MainApplication extends Application implements Mesibo.RestartListen
         mContext = getApplicationContext();
         Mesibo.setRestartListener(this);
         mConfig = new AppConfig(this);
-        SampleAPI.init(getApplicationContext());
+        org.mesibo.messenger.SampleAPI.init(getApplicationContext());
 
         mCallUi = MesiboCallUi.getInstance();
         MesiboCall.getInstance().init(mContext);
@@ -87,7 +87,7 @@ public class MainApplication extends Application implements Mesibo.RestartListen
     @Override
     public void Mesibo_onRestart() {
         Log.d(TAG, "OnRestart");
-        StartUpActivity.newInstance(this, true);
+        org.mesibo.messenger.StartUpActivity.newInstance(this, true);
     }
 
 }

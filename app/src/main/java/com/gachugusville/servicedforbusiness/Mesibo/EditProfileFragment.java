@@ -38,10 +38,11 @@
  *
  */
 
-package org.mesibo.messenger;
+package com.gachugusville.servicedforbusiness.Mesibo;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -50,12 +51,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.view.menu.MenuPopupHelper;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -74,6 +69,14 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.fragment.app.Fragment;
+
+import com.gachugusville.development.servicedforbusiness.R;
 import com.mesibo.api.Mesibo;
 import com.mesibo.api.MesiboUtils;
 import com.mesibo.emojiview.EmojiconEditText;
@@ -92,7 +95,7 @@ import java.io.IOException;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
-public class EditProfileFragment extends android.support.v4.app.Fragment implements MediaPicker.ImageEditorListener, Mesibo.FileTransferListener
+public class EditProfileFragment extends Fragment implements MediaPicker.ImageEditorListener, Mesibo.FileTransferListener
 {
     public  View mView=null;
     //private RoundedImageView mProfileImage;
@@ -141,7 +144,7 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
 
             } else {
                 //TBD, show alert that you can't continue
-                UIManager.showAlert(getActivity(),TITLE_PERMISON_CAMERA_FAIL, MSG_PERMISON_CAMERA_FAIL);
+                org.mesibo.messenger.UIManager.showAlert(getActivity(),TITLE_PERMISON_CAMERA_FAIL, MSG_PERMISON_CAMERA_FAIL);
 
             }
             return;
@@ -155,9 +158,9 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
     public void activateInSettingsMode() {
         mSettingsMode = true;
     }
-    private SampleAPI.ResponseHandler mHandler = new SampleAPI.ResponseHandler() {
+    private org.mesibo.messenger.SampleAPI.ResponseHandler mHandler = new org.mesibo.messenger.SampleAPI.ResponseHandler() {
         @Override
-        public void HandleAPIResponse(SampleAPI.Response response) {
+        public void HandleAPIResponse(org.mesibo.messenger.SampleAPI.Response response) {
             Log.d(TAG, "Response: " + response);
 
             //http://stackoverflow.com/questions/22924825/view-not-attached-to-window-manager-crash
@@ -172,7 +175,7 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
 
 
             if (response.op.equals("upload")) {
-                if (null != SampleAPI.getToken() && response.result.equals("OK")) {
+                if (null != org.mesibo.messenger.SampleAPI.getToken() && response.result.equals("OK")) {
                     mProfile = Mesibo.getSelfProfile();
 
                     if(TextUtils.isEmpty(mProfile.picturePath)) {
@@ -190,7 +193,7 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
                 }
 
             } else if (response.op.equals("profile")) {
-                if (null != SampleAPI.getToken() && response.result.equals("OK")) {
+                if (null != org.mesibo.messenger.SampleAPI.getToken() && response.result.equals("OK")) {
                     mProfile.name = mEmojiNameEditText.getText().toString();
                     mProfile.status = mEmojiStatusEditText.getText().toString();
                     Mesibo.setSelfProfile(mProfile);
@@ -227,7 +230,7 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
             }
         } else {
             //TBD, getActivity.getresource crashes sometime if activity is closing
-            mProfileImage.setImageDrawable(MesiboUtils.getRoundImageDrawable(BitmapFactory.decodeResource(MainApplication.getAppContext().getResources(), com.mesibo.messaging.R.drawable.default_user_image)));
+            mProfileImage.setImageDrawable(MesiboUtils.getRoundImageDrawable(BitmapFactory.decodeResource(org.mesibo.messenger.MainApplication.getAppContext().getResources(), com.mesibo.messaging.R.drawable.default_user_image)));
         }
     }
 
@@ -278,7 +281,7 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
                 if(TextUtils.isEmpty(mProfile.name) || !name.equalsIgnoreCase(mProfile.name) || TextUtils.isEmpty(mProfile.status) || !status.equalsIgnoreCase(mProfile.status)) {
                     mProgressDialog.show();
                     mHandler.setContext(getActivity());
-                    SampleAPI.setProfile(mEmojiNameEditText.getText().toString(), mEmojiStatusEditText.getText().toString(), 0, mHandler);
+                    org.mesibo.messenger.SampleAPI.setProfile(mEmojiNameEditText.getText().toString(), mEmojiStatusEditText.getText().toString(), 0, mHandler);
                 } else {
                     getActivity().finish();
                 }
@@ -293,18 +296,19 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIManager.launchImageViewer(getActivity(), Mesibo.getUserProfilePicturePath(mProfile, Mesibo.FileInfo.TYPE_AUTO));
+                org.mesibo.messenger.UIManager.launchImageViewer(getActivity(), Mesibo.getUserProfilePicturePath(mProfile, Mesibo.FileInfo.TYPE_AUTO));
             }
         });
 
         mProfileButton = (ImageView) v.findViewById(R.id.edit_user_image);
         mProfileButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
-                MenuBuilder menuBuilder = new MenuBuilder(getActivity());
+                @SuppressLint("RestrictedApi") MenuBuilder menuBuilder = new MenuBuilder(getActivity());
                 MenuInflater inflater = new MenuInflater(getActivity());
                 inflater.inflate(R.menu.image_source_menu, menuBuilder);
-                MenuPopupHelper optionsMenu = new MenuPopupHelper(getActivity(), menuBuilder, v);
+                @SuppressLint("RestrictedApi") MenuPopupHelper optionsMenu = new MenuPopupHelper(getActivity(), menuBuilder, v);
                 optionsMenu.setForceShowIcon(true);
                 menuBuilder.setCallback(new MenuBuilder.Callback() {
                     @Override
@@ -319,7 +323,7 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
                             return true;
                         } else if (item.getItemId() == R.id.popup_remove) {
                             mHandler.setContext(getActivity());
-                            SampleAPI.setProfilePicture(null, 0, mHandler);
+                            org.mesibo.messenger.SampleAPI.setProfilePicture(null, 0, mHandler);
                             return true;
                         }
                         return false;
@@ -529,7 +533,7 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
         if(null == filePath)
             return;
 
-        UIManager.launchImageEditor((AppCompatActivity)getActivity(), MediaPicker.TYPE_FILEIMAGE, -1, null, filePath, false, false, true, true, 600, this);
+        org.mesibo.messenger.UIManager.launchImageEditor((AppCompatActivity)getActivity(), MediaPicker.TYPE_FILEIMAGE, -1, null, filePath, false, false, true, true, 600, this);
         //mProgressDialog.show();
     }
 
@@ -575,7 +579,7 @@ public class EditProfileFragment extends android.support.v4.app.Fragment impleme
         }
 
         mHandler.setContext(getActivity());
-        SampleAPI.setProfilePicture(mTempFilePath, 0, mHandler);
+        org.mesibo.messenger.SampleAPI.setProfilePicture(mTempFilePath, 0, mHandler);
         setImageProfile(bitmap);
     }
 

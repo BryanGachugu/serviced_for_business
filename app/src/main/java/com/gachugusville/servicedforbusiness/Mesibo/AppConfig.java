@@ -1,4 +1,4 @@
-package org.mesibo.messenger;
+package com.gachugusville.servicedforbusiness.Mesibo;
 
 /** Copyright (c) 2019 Mesibo
  * https://mesibo.com
@@ -56,7 +56,7 @@ public class AppConfig {
         public String token = "";
         public String phone = "";
         public String cc = "";
-        public SampleAPI.Invite invite = null;
+        public org.mesibo.messenger.SampleAPI.Invite invite = null;
         public String uploadurl = null;
         public String downloadurl = null;
 

@@ -1,40 +1,35 @@
 package com.gachugusville.servicedforbusiness.Messaging.Containers;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.Parcelable;
+import android.util.Log;
+import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
+import com.gachugusville.servicedforbusiness.Utils.Dialog;
+import com.gachugusville.servicedforbusiness.Utils.Messaging.ChatDialog;
+import com.gachugusville.servicedforbusiness.Utils.ServiceCategoryList;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.mesibo.api.Mesibo;
-import com.mesibo.calls.MesiboAudioCallFragment;
-import com.mesibo.calls.MesiboCall;
-import com.mesibo.calls.MesiboVideoCallFragment;
-import com.mesibo.calls.api.MesiboCall;
-import com.mesibo.messaging.MesiboUI;
+import com.squareup.picasso.Picasso;
+import com.stfalcon.chatkit.commons.ImageLoader;
+import com.stfalcon.chatkit.commons.models.IMessage;
+import com.stfalcon.chatkit.dialogs.DialogsList;
+import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-public class ChatActivity extends AppCompatActivity implements Mesibo.ConnectionListener, Mesibo.MessageListener, Mesibo.CallListener {
-
-    @Override
-    public boolean Mesibo_onCall(long l, long l1, Mesibo.UserProfile userProfile, int i) {
-        return false;
-    }
-
-    @Override
-    public boolean Mesibo_onCallStatus(long l, long l1, int i, long l2, long l3, long l4, String s) {
-        return false;
-    }
-
-    @Override
-    public void Mesibo_onCallServer(int i, String s, String s1, String s2) {
-
-    }
+public class ChatActivity extends AppCompatActivity {
 
     class DemoUser {
         public String token;
@@ -56,133 +51,16 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
     Mesibo.UserProfile mProfile;
     Mesibo.ReadDbSession mReadSession;
 
-    View mLoginButton1, mLoginButton2, mSendButton, mUiButton, mAudioCallButton, mVideoCallButton;
-    TextView mMessageStatus, mConnStatus;
-    EditText mMessage;
+    private List<ChatDialog> dialogs;
+    private DialogsListAdapter<ChatDialog> dialogsListAdapter;
+    private String myUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mLoginButton1 = findViewById(R.id.login1);
-        mLoginButton2 = findViewById(R.id.login2);
-        mSendButton = findViewById(R.id.send);
-        mUiButton = findViewById(R.id.launchUI);
-        mAudioCallButton = findViewById(R.id.audioCall);
-        mVideoCallButton = findViewById(R.id.videoCall);
-        mMessageStatus = findViewById(R.id.msgStatus);
-        mConnStatus = findViewById(R.id.connStatus);
-        mMessage = findViewById(R.id.message);
-
-        mSendButton.setEnabled(false);
-        mUiButton.setEnabled(false);
-        mAudioCallButton.setEnabled(false);
-        mVideoCallButton.setEnabled(false);
-
-    }
-
-    private void mesiboInit(DemoUser user, DemoUser remoteUser) {
+        setContentView(R.layout.activity_chat);
         Mesibo api = Mesibo.getInstance();
         api.init(getApplicationContext());
-
-        Mesibo.addListener(this);
-        Mesibo.setSecureConnection(true);
-        Mesibo.setAccessToken(user.token);
-        Mesibo.setDatabase("mydb", 0);
-        Mesibo.start();
-
-        mRemoteUser = remoteUser;
-        mProfile = new Mesibo.UserProfile();
-        mProfile.address = remoteUser.address;
-        mProfile.name = remoteUser.name;
-        Mesibo.setUserProfile(mProfile, false);
-
-        // disable login buttons
-        mLoginButton1.setEnabled(false);
-        mLoginButton2.setEnabled(false);
-
-        // enable buttons
-        mSendButton.setEnabled(true);
-        mUiButton.setEnabled(true);
-        mAudioCallButton.setEnabled(true);
-        mVideoCallButton.setEnabled(true);
-
-
-        MesiboCall.getInstance().init(getApplicationContext());
-        MesiboCall.getInstance().setListener((MesiboCall.IncomingListener) getApplicationContext());
-
-        // Read receipts are enabled only when App is set to be in foreground
-        Mesibo.setAppInForeground(this, 0, true);
-        mReadSession = new Mesibo.ReadDbSession(mRemoteUser.address, this);
-        mReadSession.enableReadReceipt(true);
-        mReadSession.read(100);
-
-    }
-
-
-    public void onLoginUser1(View view) {
-        mesiboInit(mUser1, mUser2);
-    }
-
-    public void onLoginUser2(View view) {
-        mesiboInit(mUser2, mUser1);
-    }
-
-    public void onSendMessage(View view) {
-        Mesibo.MessageParams p = new Mesibo.MessageParams();
-        p.peer = mRemoteUser.address;
-        p.flag = Mesibo.FLAG_READRECEIPT | Mesibo.FLAG_DELIVERYRECEIPT;
-
-        Mesibo.sendMessage(p, Mesibo.random(), mMessage.getText().toString().trim());
-        mMessage.setText("");
-    }
-
-    public void onLaunchMessagingUi(View view) {
-        MesiboUI.launchMessageView(this, mRemoteUser.address, 0);
-    }
-
-    @Override
-    public void Mesibo_onConnectionStatus(int status) {
-        mConnStatus.setText("Connection Status: " + status);
-    }
-
-    @Override
-    public boolean Mesibo_onMessage(Mesibo.MessageParams messageParams, byte[] data) {
-        try {
-            String message = new String(data, "UTF-8");
-
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    message,
-                    Toast.LENGTH_SHORT);
-
-            toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-
-            toast.show();
-
-        } catch (Exception e) {
-        }
-
-        return true;
-    }
-
-    @Override
-    public void Mesibo_onMessageStatus(Mesibo.MessageParams messageParams) {
-        mMessageStatus.setText("Message Status: " + messageParams.getStatus());
-    }
-
-    @Override
-    public void Mesibo_onActivity(Mesibo.MessageParams messageParams, int i) {
-
-    }
-
-    @Override
-    public void Mesibo_onLocation(Mesibo.MessageParams messageParams, Mesibo.Location location) {
-
-    }
-
-    @Override
-    public void Mesibo_onFile(Mesibo.MessageParams messageParams, Mesibo.FileInfo fileInfo) {
 
     }
 

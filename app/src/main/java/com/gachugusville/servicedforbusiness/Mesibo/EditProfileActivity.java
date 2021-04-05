@@ -38,26 +38,28 @@
  *
  */
 
-package org.mesibo.messenger;
+package com.gachugusville.servicedforbusiness.Mesibo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.gachugusville.development.servicedforbusiness.R;
 import com.mesibo.api.Mesibo;
 
 
 public class EditProfileActivity extends AppCompatActivity {
 
 
-    Fragment mRequestingFragment;
+    EditProfileFragment mRequestingFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

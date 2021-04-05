@@ -1,4 +1,4 @@
-package org.mesibo.messenger;
+package com.gachugusville.servicedforbusiness.Mesibo;
 
 /** Copyright (c) 2019 Mesibo
  * https://mesibo.com
@@ -52,7 +52,7 @@ public class AutoStart extends BroadcastReceiver
     {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) ||
                 intent.getAction().equals(MainApplication.getRestartIntent())) {
-            StartUpActivity.newInstance(context, true);
+            org.mesibo.messenger.StartUpActivity.newInstance(context, true);
         }
     }
 }
