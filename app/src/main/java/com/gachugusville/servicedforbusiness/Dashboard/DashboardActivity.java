@@ -21,7 +21,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.gachugusville.development.servicedforbusiness.R;
-import com.gachugusville.servicedforbusiness.Messaging.Containers.ChatActivity;
 import com.gachugusville.servicedforbusiness.Registration.LogInActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
 import com.github.mikephil.charting.data.Entry;
@@ -33,7 +32,6 @@ import com.google.android.play.core.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,8 +48,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     private LinearLayout contentView;
     private ReviewManager manager;
     private ReviewInfo reviewInfo;
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String Uid;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -65,11 +61,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         setContentView(R.layout.activity_dashboard);
         FirebaseApp.initializeApp(this);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null){
-            Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (user != null) {
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
-
-        findViewById(R.id.btn_msg).setOnClickListener(v -> startActivity(new Intent(this, ChatActivity.class)));
 
         drawer_layout = findViewById(R.id.drawer_layout);
         navigation_view = findViewById(R.id.navigation_view);
