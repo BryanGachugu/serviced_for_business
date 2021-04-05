@@ -1,5 +1,6 @@
 package com.gachugusville.servicedforbusiness.Messaging.Containers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -29,7 +30,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         dialogsList = findViewById(R.id.dialogsList);
 
-        dialogsListAdapter = new DialogsListAdapter<>(dialogs.size(), new ImageLoader() {
+        dialogsListAdapter = new DialogsListAdapter<>(R.layout.item_dialog_custom, new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
                 Picasso.get().load(url).into(imageView);
@@ -39,25 +40,27 @@ public class ChatActivity extends AppCompatActivity {
         dialogsList.setAdapter(dialogsListAdapter);
         dialogsListAdapter.setItems(dialogs);
 
-        dialogsListAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener<Dialog>() {
+        dialogsListAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener<ChatDialog>() {
             @Override
-            public void onDialogClick(Dialog dialog) {
-                //On item click action
+            public void onDialogClick(ChatDialog dialog) {
+                startActivity(new Intent(ChatActivity.this, ConversationActivity.class));
             }
         });
 
-        dialogsListAdapter.setOnDialogLongClickListener(new DialogsListAdapter.OnDialogLongClickListener<Dialog>() {
+        dialogsListAdapter.setOnDialogLongClickListener(new DialogsListAdapter.OnDialogLongClickListener<ChatDialog>() {
             @Override
-            public void onDialogLongClick(Dialog dialog) {
-                //on long item click action
+            public void onDialogLongClick(ChatDialog dialog) {
+
             }
         });
+
+
 
     }
 
     private void onNewMessage(String dialogId, IMessage message) {
         if (!dialogsListAdapter.updateDialogWithMessage(dialogId, message)) {
-            //Dialog with this ID doesn't exist, so you can create new Dialog or reload all dialogs list
+            dialogs.add(new ChatDialog());
         }
     }
 
