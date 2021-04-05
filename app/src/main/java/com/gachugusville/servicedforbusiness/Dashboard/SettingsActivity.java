@@ -5,19 +5,19 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gachugusville.development.servicedforbusiness.R;
 import com.gachugusville.servicedforbusiness.Genesis.StartActivity;
 import com.gachugusville.servicedforbusiness.Utils.Provider;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.MessageFormat;
@@ -47,7 +47,16 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void deleteUser() {
-
+        DocumentReference myData = FirebaseFirestore.getInstance().collection("Providers")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        myData.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(@NonNull Void aVoid) {
+                        FirebaseAuth.getInstance().getCurrentUser().delete();
+                        startActivity(new Intent(SettingsActivity.this, StartActivity.class));
+                    }
+                });
     }
 
     private void setAvailabilityStatus() {
@@ -55,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        if (Provider.getInstance().getTime_available_from() == 24){
+        if (Provider.getInstance().getTime_available_from() == 24) {
             Provider.getInstance().setTime_available_from((short) 0);
         }
         float hour_available_from = Provider.getInstance().getTime_available_from();

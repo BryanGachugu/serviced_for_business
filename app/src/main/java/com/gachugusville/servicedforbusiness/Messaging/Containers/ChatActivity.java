@@ -15,6 +15,7 @@ import com.gachugusville.servicedforbusiness.Utils.ServiceCategoryList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
@@ -76,6 +77,7 @@ public class ChatActivity extends AppCompatActivity {
             Log.d("CategoriesError", e.getMessage());
         }
 
+        
         dialogs = new ArrayList<>();
         dialogsList.setAdapter(dialogsListAdapter);
         dialogsListAdapter.setItems(dialogs);
