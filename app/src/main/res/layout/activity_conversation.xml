@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -57,7 +58,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/linear_layout_chat_Send"
-        android:layout_below="@id/toolbar" />
+        android:layout_below="@id/toolbar"
+        app:incomingDefaultBubbleColor="@color/light_blue"
+        app:incomingDefaultBubblePressedColor="@color/bpDarker_blue"
+        app:incomingDefaultBubbleSelectedColor="@color/gray"
+        app:incomingDefaultImageOverlayPressedColor="#594F4F"
+        app:incomingDefaultImageOverlaySelectedColor="@color/orange"
+        app:incomingTextColor="@color/black"
+        app:incomingTextLinkColor="#63FF00"
+        app:incomingTextSize="18sp"
+        app:outcomingDefaultBubbleColor="#63FF00"
+        app:outcomingDefaultBubblePressedColor="#487E27"
+        app:outcomingDefaultBubbleSelectedColor="#A38F8F"
+        app:outcomingDefaultImageOverlayPressedColor="#594F4F"
+        app:outcomingDefaultImageOverlaySelectedColor="#A38F8F"
+        app:outcomingTextColor="@color/white"
+        app:outcomingTextLinkColor="#FF6D00"
+        app:outcomingTextSize="18sp" />
 
     <LinearLayout
         android:id="@+id/linear_layout_chat_Send"
