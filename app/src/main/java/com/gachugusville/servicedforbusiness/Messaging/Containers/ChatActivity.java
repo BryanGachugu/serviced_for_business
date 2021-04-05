@@ -15,10 +15,26 @@ import com.mesibo.api.Mesibo;
 import com.mesibo.calls.MesiboAudioCallFragment;
 import com.mesibo.calls.MesiboCall;
 import com.mesibo.calls.MesiboVideoCallFragment;
+import com.mesibo.calls.api.MesiboCall;
 import com.mesibo.messaging.MesiboUI;
 
 
 public class ChatActivity extends AppCompatActivity implements Mesibo.ConnectionListener, Mesibo.MessageListener, Mesibo.CallListener {
+
+    @Override
+    public boolean Mesibo_onCall(long l, long l1, Mesibo.UserProfile userProfile, int i) {
+        return false;
+    }
+
+    @Override
+    public boolean Mesibo_onCallStatus(long l, long l1, int i, long l2, long l3, long l4, String s) {
+        return false;
+    }
+
+    @Override
+    public void Mesibo_onCallServer(int i, String s, String s1, String s2) {
+
+    }
 
     class DemoUser {
         public String token;
@@ -94,7 +110,7 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
 
 
         MesiboCall.getInstance().init(getApplicationContext());
-        MesiboCall.getInstance().setListener(this);
+        MesiboCall.getInstance().setListener((MesiboCall.IncomingListener) getApplicationContext());
 
         // Read receipts are enabled only when App is set to be in foreground
         Mesibo.setAppInForeground(this, 0, true);
@@ -124,14 +140,6 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
 
     public void onLaunchMessagingUi(View view) {
         MesiboUI.launchMessageView(this, mRemoteUser.address, 0);
-    }
-
-    public void onAudioCall(View view) {
-        MesiboCall.getInstance().call(this, 0, mProfile, false);
-    }
-
-    public void onVideoCall(View view) {
-        MesiboCall.getInstance().call(this, 0, mProfile, true);
     }
 
     @Override
@@ -176,26 +184,6 @@ public class ChatActivity extends AppCompatActivity implements Mesibo.Connection
     @Override
     public void Mesibo_onFile(Mesibo.MessageParams messageParams, Mesibo.FileInfo fileInfo) {
 
-    }
-
-    @Override
-    public boolean MesiboCall_onNotify(int i, Mesibo.UserProfile userProfile, boolean b) {
-        return false;
-    }
-
-    @Override
-    public MesiboVideoCallFragment MesiboCall_getVideoCallFragment(Mesibo.UserProfile userProfile) {
-        return null;
-    }
-
-    @Override
-    public MesiboAudioCallFragment MesiboCall_getAudioCallFragment(Mesibo.UserProfile userProfile) {
-        return null;
-    }
-
-    @Override
-    public Fragment MesiboCall_getIncomingAudioCallFragment(Mesibo.UserProfile userProfile) {
-        return null;
     }
 
 }
