@@ -2,6 +2,7 @@ package com.gachugusville.servicedforbusiness.Messaging.Containers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -48,12 +49,11 @@ public class ChatActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) myUid = user.getUid();
-        String customerUid = ""; //TODO get customer UID
         FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();
         try {
             mFirebaseFirestore.collection("Providers")
                     .document(myUid)
-                    .collection(customerUid)
+                    .collection("ChatDialogs")
                     //Contains documents with fields, name, dialogImageUrl, last message   AND A COLLECTION OF MESSAGES
                     .addSnapshotListener((value, error) -> {
                         if (error != null) {
@@ -77,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
             Log.d("CategoriesError", e.getMessage());
         }
 
-        
+
         dialogs = new ArrayList<>();
         dialogsList.setAdapter(dialogsListAdapter);
         dialogsListAdapter.setItems(dialogs);
@@ -85,7 +85,11 @@ public class ChatActivity extends AppCompatActivity {
         dialogsListAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener<ChatDialog>() {
             @Override
             public void onDialogClick(ChatDialog dialog) {
-                startActivity(new Intent(ChatActivity.this, ConversationActivity.class));
+                Intent intent = new Intent(ChatActivity.this, ConversationActivity.class);
+                intent.putExtra("user_name", dialog.getDialogName());
+                intent.putExtra("profile_picture", dialog.getDialogPhoto());
+                intent.putExtra("user_id", dialog.getId());
+                dialog.setUnreadCounts(0);
             }
         });
 
@@ -95,8 +99,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
-
 
     }
 
