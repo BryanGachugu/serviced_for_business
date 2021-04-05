@@ -83,11 +83,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'com.google.firebase:firebase-dynamic-links'
     implementation 'com.google.android.play:core:1.10.0'
-    implementation 'com.github.stfalcon-studio:Chatkit:0.4.1'
-
-    implementation 'com.mesibo.api:mesibo:1.2.70'
-    implementation 'com.mesibo.api:calls:1.2.82'
-    implementation 'com.mesibo.api:ui:1.2.81'
+    // Client + offline + UI components
+    implementation "io.getstream:stream-chat-android-ui-components:4.8.0"
+    // Client + offline
+    implementation "io.getstream:stream-chat-android-offline:4.8.0"
+    // Client only
+    implementation "io.getstream:stream-chat-android-client:4.8.0"
 
 
 
