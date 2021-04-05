@@ -50,12 +50,7 @@ public class ConversationActivity extends AppCompatActivity {
         String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         MessagesListAdapter<Message> adapter = new MessagesListAdapter<>(myUid, (imageView, url, payload) -> Picasso.get().load(url).into(imageView));
         messagesList.setAdapter(adapter);
-        adapter.setOnMessageLongClickListener(new MessagesListAdapter.OnMessageLongClickListener<Message>() {
-            @Override
-            public void onMessageLongClick(Message message) {
-                Toast.makeText(ConversationActivity.this, "message to delete", Toast.LENGTH_SHORT).show();
-            }
-        });
+        adapter.setOnMessageLongClickListener(message -> Toast.makeText(ConversationActivity.this, "message to delete", Toast.LENGTH_SHORT).show());
 
     }
 }

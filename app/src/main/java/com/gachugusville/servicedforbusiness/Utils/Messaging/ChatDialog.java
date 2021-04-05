@@ -10,17 +10,27 @@ public class ChatDialog implements IDialog {
 
     String id, dialogPhoto, dialogName;
     IMessage last_message;
+    Message message;
     int unreadCounts;
 
     public ChatDialog() {
     }
 
-    public ChatDialog(String id, String dialogPhoto, String dialogName, IMessage last_message, int unreadCounts) {
+    public ChatDialog(String id, String dialogPhoto, String dialogName, IMessage last_message, Message message, int unreadCounts) {
         this.id = id;
         this.dialogPhoto = dialogPhoto;
         this.dialogName = dialogName;
         this.last_message = last_message;
+        this.message = message;
         this.unreadCounts = unreadCounts;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     @Override
