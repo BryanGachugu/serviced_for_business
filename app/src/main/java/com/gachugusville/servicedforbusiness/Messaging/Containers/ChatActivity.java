@@ -38,74 +38,9 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        DialogsList dialogsList = findViewById(R.id.dialogsList);
 
-        dialogsListAdapter = new DialogsListAdapter<>(R.layout.item_dialog_custom, new ImageLoader() {
-            @Override
-            public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                Picasso.get().load(url).into(imageView);
-            }
-        });
+        
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) myUid = user.getUid();
-        FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();
-        try {
-            mFirebaseFirestore.collection("Providers")
-                    .document(myUid)
-                    .collection("ChatDialogs")
-                    //Contains documents with fields, name, dialogImageUrl, last message   AND A COLLECTION OF MESSAGES
-                    .addSnapshotListener((value, error) -> {
-                        if (error != null) {
-                            Log.d("Error", Objects.requireNonNull(error.getMessage()));
-                        }
-                        try {
-                            if (value != null) {
-                                for (DocumentChange documentChange : value.getDocumentChanges()) {
-                                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                                        final ChatDialog chatDialog = documentChange.getDocument().toObject(ChatDialog.class);
-                                        dialogs.add(chatDialog);
-                                        dialogsListAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            }
-                        } catch (NullPointerException e) {
-                            Log.d(e.getMessage(), e.getLocalizedMessage());
-                        }
-                    });
-        } catch (Exception e) {
-            Log.d("CategoriesError", e.getMessage());
-        }
-
-
-        dialogs = new ArrayList<>();
-        dialogsList.setAdapter(dialogsListAdapter);
-        dialogsListAdapter.setItems(dialogs);
-
-        dialogsListAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener<ChatDialog>() {
-            @Override
-            public void onDialogClick(ChatDialog dialog) {
-                Intent intent = new Intent(ChatActivity.this, ConversationActivity.class);
-                intent.putExtra("user_name", dialog.getDialogName());
-                intent.putExtra("profile_picture", dialog.getDialogPhoto());
-                intent.putExtra("user_id", dialog.getId());
-                dialog.setUnreadCounts(0);
-            }
-        });
-
-        dialogsListAdapter.setOnDialogLongClickListener(new DialogsListAdapter.OnDialogLongClickListener<ChatDialog>() {
-            @Override
-            public void onDialogLongClick(ChatDialog dialog) {
-
-            }
-        });
-
-    }
-
-    private void onNewMessage(String dialogId, IMessage message) {
-        if (!dialogsListAdapter.updateDialogWithMessage(dialogId, message)) {
-            dialogs.add(new ChatDialog());
-        }
     }
 
 }
